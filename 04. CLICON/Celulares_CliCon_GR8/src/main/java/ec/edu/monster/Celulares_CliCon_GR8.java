@@ -255,8 +255,8 @@ public class Celulares_CliCon_GR8 {
             if (f != null) {
                 imprimirFactura(f);
                 if (f.getCodCredito() != null) {
-                    System.out.println("\n>>> TABLA DE AMORTIZACIÓN GENERADA POR BANQUITO (Crédito #" + f.getCodCredito() + "):");
-                    imprimirTablaAmortizacion(f.getCodCredito());
+                    System.out.println("\n>>> TABLA DE AMORTIZACIÓN GENERADA POR BANQUITO (Crédito #" + f.getCodCredito() + " - Factura #" + f.getNumFactura() + "):");
+                    imprimirTablaAmortizacion(f.getNumFactura());
                 }
             }
         } catch (Exception e) {
@@ -267,19 +267,19 @@ public class Celulares_CliCon_GR8 {
     private static void consultarAmortizacion() {
         System.out.println("\n=== CONSULTA DE TABLA DE AMORTIZACIÓN DE CRÉDITO ===");
         try {
-            System.out.print("Ingrese el código de crédito BanQuito: ");
-            int codCredito = Integer.parseInt(scanner.nextLine().trim());
-            imprimirTablaAmortizacion(codCredito);
+            System.out.print("Ingrese el número de factura (CU-08): ");
+            int numFactura = Integer.parseInt(scanner.nextLine().trim());
+            imprimirTablaAmortizacion(numFactura);
         } catch (Exception e) {
             System.err.println("Error al consultar amortización: " + e.getMessage());
         }
     }
 
-    private static void imprimirTablaAmortizacion(int codCredito) {
+    private static void imprimirTablaAmortizacion(int numFactura) {
         try {
-            List<CuotaAmortizacion> tabla = servicio.consultarAmortizacion(codCredito);
+            List<CuotaAmortizacion> tabla = servicio.consultarAmortizacion(numFactura);
             if (tabla == null || tabla.isEmpty()) {
-                System.out.println("No se encontraron cuotas para el crédito #" + codCredito);
+                System.out.println("No se encontraron cuotas para la factura #" + numFactura);
                 return;
             }
 
