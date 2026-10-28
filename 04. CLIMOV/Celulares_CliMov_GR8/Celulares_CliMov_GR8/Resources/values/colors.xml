@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paleta del Banco Pichincha: amarillo como acento y azul marino institucional -->
+<resources>
+    <color name="amarillo">#FFDD00</color>
+    <color name="amarillo_oscuro">#E6C700</color>
+    <color name="amarillo_claro">#FFFBE0</color>
+    <color name="azul">#0F265C</color>
+    <color name="azul_claro">#E8ECF5</color>
+    <color name="fondo">#F4F5F7</color>
+    <color name="blanco">#FFFFFF</color>
+    <color name="texto">#1F2937</color>
+    <color name="texto_suave">#6B7280</color>
+    <color name="borde">#E2E5EB</color>
+    <color name="error">#C62828</color>
+    <color name="exito">#2E7D32</color>
+    <color name="exito_claro">#E6F4EA</color>
+</resources>

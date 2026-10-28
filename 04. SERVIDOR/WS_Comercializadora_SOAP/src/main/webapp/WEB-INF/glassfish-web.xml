@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE glassfish-web-app PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Servlet 3.0//EN" "http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
+<!-- Ruta fija del servicio: la comercializadora invoca al Core en /WS_BanQuito_SOAP -->
+<glassfish-web-app>
+    <context-root>/WS_Comercializadora_SOAP</context-root>
+</glassfish-web-app>

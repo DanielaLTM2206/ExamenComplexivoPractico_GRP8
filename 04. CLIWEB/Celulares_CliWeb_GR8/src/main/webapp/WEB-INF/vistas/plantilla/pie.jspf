@@ -1,0 +1,29 @@
+<%@ page pageEncoding="UTF-8" %>
+<%-- Pie común: diálogo propio para errores, avisos y confirmaciones --%>
+</main>
+<footer class="pie">ESPE · Arquitectura de Software · NRC 36883 · Grupo 08</footer>
+
+<div id="dialogo" class="dialogo-fondo" hidden>
+    <div class="dialogo" role="dialog" aria-modal="true" aria-labelledby="dialogo-titulo">
+        <div class="dialogo-cabecera">
+            <span id="dialogo-icono" class="dialogo-icono"></span>
+            <h2 id="dialogo-titulo"></h2>
+        </div>
+        <p id="dialogo-mensaje"></p>
+        <div class="dialogo-acciones">
+            <button type="button" id="dialogo-cancelar" class="boton boton-secundario" hidden>Cancelar</button>
+            <button type="button" id="dialogo-aceptar" class="boton">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<%-- Mensajes que dejó el controlador: se muestran al cargar la página --%>
+<div id="mensaje-servidor" hidden
+     data-titulo="${fn:escapeXml(not empty error ? tituloError : 'Operación exitosa')}"
+     data-tipo="${not empty error ? 'error' : 'exito'}"
+     data-mensaje="${fn:escapeXml(not empty error ? error : sessionScope.aviso)}"></div>
+<c:remove var="aviso" scope="session" />
+
+<script src="${pageContext.request.contextPath}/js/dialogos.js"></script>
+</body>
+</html>

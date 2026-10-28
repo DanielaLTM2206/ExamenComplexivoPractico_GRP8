@@ -1,25 +1,23 @@
 package ec.edu.monster.ws;
 
-import ec.edu.monster.dao.CelularDAO;
-import ec.edu.monster.dao.FacturaDAO;
 import ec.edu.monster.modelo.Celular;
 import ec.edu.monster.modelo.Factura;
 import ec.edu.monster.proxy.CuotaAmortizacion;
+import ec.edu.monster.servicio.ExcepcionComercializadora;
+import ec.edu.monster.servicio.ServicioCatalogo;
 import ec.edu.monster.servicio.ServicioFacturacion;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
+// Los errores llegan a los clientes como SOAP Fault ExcepcionComercializadora con el código del ERS (VAL-001, CRE-001, ...)
 @WebService(serviceName = "WSComercializadora")
 public class WSComercializadora {
 
-    private final CelularDAO celularDAO = new CelularDAO();
-    private final FacturaDAO facturaDAO = new FacturaDAO();
+    private final ServicioCatalogo servicioCatalogo = new ServicioCatalogo();
     private final ServicioFacturacion servicioFacturacion = new ServicioFacturacion();
 
     // -------------------------------------------------------------------------
@@ -30,53 +28,33 @@ public class WSComercializadora {
     public Celular crearCelular(
             @WebParam(name = "marca") String marca,
             @WebParam(name = "modelo") String modelo,
-            @WebParam(name = "precio") BigDecimal precio) throws Exception {
-        try {
-            return celularDAO.crearCelular(marca, modelo, precio);
-        } catch (SQLException e) {
-            throw new Exception("Error al crear celular: " + e.getMessage());
-        }
+            @WebParam(name = "precio") BigDecimal precio) throws ExcepcionComercializadora {
+        return servicioCatalogo.crear(marca, modelo, precio);
     }
 
     @WebMethod(operationName = "listarCelulares")
-    public List<Celular> listarCelulares(@WebParam(name = "soloActivos") boolean soloActivos) {
-        try {
-            return celularDAO.listarCelulares(soloActivos);
-        } catch (SQLException e) {
-            return Collections.emptyList();
-        }
+    public List<Celular> listarCelulares(@WebParam(name = "soloActivos") boolean soloActivos) throws ExcepcionComercializadora {
+        return servicioCatalogo.listar(soloActivos);
     }
 
     @WebMethod(operationName = "obtenerCelular")
-    public Celular obtenerCelular(@WebParam(name = "codCelular") int codCelular) {
-        try {
-            return celularDAO.buscarPorId(codCelular);
-        } catch (SQLException e) {
-            return null;
-        }
+    public Celular obtenerCelular(@WebParam(name = "codCelular") int codCelular) throws ExcepcionComercializadora {
+        return servicioCatalogo.obtener(codCelular);
     }
 
     @WebMethod(operationName = "actualizarCelular")
-    public boolean actualizarCelular(
+    public Celular actualizarCelular(
             @WebParam(name = "codCelular") int codCelular,
             @WebParam(name = "marca") String marca,
             @WebParam(name = "modelo") String modelo,
             @WebParam(name = "precio") BigDecimal precio,
-            @WebParam(name = "activo") int activo) throws Exception {
-        try {
-            return celularDAO.actualizarCelular(codCelular, marca, modelo, precio, activo);
-        } catch (SQLException e) {
-            throw new Exception("Error al actualizar celular: " + e.getMessage());
-        }
+            @WebParam(name = "activo") boolean activo) throws ExcepcionComercializadora {
+        return servicioCatalogo.actualizar(codCelular, marca, modelo, precio, activo);
     }
 
     @WebMethod(operationName = "eliminarCelular")
-    public boolean eliminarCelular(@WebParam(name = "codCelular") int codCelular) throws Exception {
-        try {
-            return celularDAO.eliminarCelular(codCelular);
-        } catch (SQLException e) {
-            throw new Exception("Error al eliminar celular: " + e.getMessage());
-        }
+    public boolean eliminarCelular(@WebParam(name = "codCelular") int codCelular) throws ExcepcionComercializadora {
+        return servicioCatalogo.eliminar(codCelular);
     }
 
     // -------------------------------------------------------------------------
@@ -88,7 +66,7 @@ public class WSComercializadora {
             @WebParam(name = "cedula") String cedula,
             @WebParam(name = "nombre") String nombre,
             @WebParam(name = "codCelular") int codCelular,
-            @WebParam(name = "cantidad") int cantidad) throws Exception {
+            @WebParam(name = "cantidad") int cantidad) throws ExcepcionComercializadora {
         return servicioFacturacion.facturarEfectivo(cedula, nombre, codCelular, cantidad);
     }
 
@@ -97,21 +75,17 @@ public class WSComercializadora {
             @WebParam(name = "cedula") String cedula,
             @WebParam(name = "nombre") String nombre,
             @WebParam(name = "codCelular") int codCelular,
-            @WebParam(name = "cuotas") int cuotas) throws Exception {
-        return servicioFacturacion.facturarCredito(cedula, nombre, codCelular, cuotas);
+            @WebParam(name = "numeroCuotas") int numeroCuotas) throws ExcepcionComercializadora {
+        return servicioFacturacion.facturarCredito(cedula, nombre, codCelular, numeroCuotas);
     }
 
     @WebMethod(operationName = "consultarAmortizacion")
-    public List<CuotaAmortizacion> consultarAmortizacion(@WebParam(name = "codCredito") int codCredito) {
-        return servicioFacturacion.consultarAmortizacion(codCredito);
+    public List<CuotaAmortizacion> consultarAmortizacion(@WebParam(name = "numFactura") int numFactura) throws ExcepcionComercializadora {
+        return servicioFacturacion.consultarAmortizacion(numFactura);
     }
 
     @WebMethod(operationName = "obtenerFactura")
-    public Factura obtenerFactura(@WebParam(name = "numFactura") int numFactura) {
-        try {
-            return facturaDAO.obtenerFactura(numFactura);
-        } catch (SQLException e) {
-            return null;
-        }
+    public Factura obtenerFactura(@WebParam(name = "numFactura") int numFactura) throws ExcepcionComercializadora {
+        return servicioFacturacion.obtenerFactura(numFactura);
     }
 }

@@ -2,3 +2,9 @@
 ~$*
 *.tmp
 *.bak
+
+# Compilación de .NET / Visual Studio (cliente móvil)
+**/bin/
+**/obj/
+**/.vs/
+*.user
