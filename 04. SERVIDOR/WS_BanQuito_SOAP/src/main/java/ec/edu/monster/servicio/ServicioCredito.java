@@ -8,6 +8,7 @@ import ec.edu.monster.modelo.Credito;
 import ec.edu.monster.modelo.CuotaAmortizacion;
 import ec.edu.monster.modelo.RespuestaCredito;
 import ec.edu.monster.modelo.RespuestaSujetoCredito;
+import ec.edu.monster.util.ValidadorCedula;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,103 +18,90 @@ import java.time.Period;
 import java.util.Collections;
 import java.util.List;
 
+// Las reglas incumplidas se informan en el objeto de respuesta; los datos inválidos de las operaciones
+// sin objeto de respuesta y las fallas de base de datos (BDD-001) se lanzan como ExcepcionNegocio.
 public class ServicioCredito {
+
+    private static final BigDecimal PORCENTAJE = new BigDecimal("0.30");
+    private static final BigDecimal MESES = new BigDecimal("6");
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
     private final MovimientoDAO movimientoDAO = new MovimientoDAO();
     private final CreditoDAO creditoDAO = new CreditoDAO();
 
     public RespuestaSujetoCredito verificarSujeto(String cedula) {
-        if (cedula == null || cedula.trim().isEmpty()) {
-            return new RespuestaSujetoCredito(false, null, "La cédula proporcionada es inválida o vacía.");
+        String ced = cedula == null ? "" : cedula.trim();
+        if (!ValidadorCedula.esValida(ced)) {
+            return new RespuestaSujetoCredito(false, null,
+                CodigoError.VAL_001.mensaje("La cédula debe tener 10 dígitos y un dígito verificador correcto."));
         }
 
         try {
             // RN-01: Ser cliente del banco
-            Cliente cliente = clienteDAO.buscarPorCedula(cedula.trim());
+            Cliente cliente = clienteDAO.buscarPorCedula(ced);
             if (cliente == null) {
-                return new RespuestaSujetoCredito(false, null, "CLI-001: El cliente no se encuentra registrado en BanQuito.");
+                return new RespuestaSujetoCredito(false, null, CodigoError.CLI_001.mensaje());
             }
 
-            int codCliente = cliente.getCodCliente();
-
-            // RN-02: Tener al menos un depósito en el último mes
-            int depositosMes = movimientoDAO.contarDepositosUltimoMes(codCliente);
-            if (depositosMes <= 0) {
-                return new RespuestaSujetoCredito(false, codCliente, "RN-02: El cliente no registra depósitos en los últimos 30 días.");
+            String motivo = motivoRechazo(cliente);
+            if (motivo != null) {
+                return new RespuestaSujetoCredito(false, cliente.getCodCliente(), CodigoError.CRE_001.mensaje(motivo));
             }
-
-            // RN-03: Si es hombre, edad >= 25 años
-            if ("M".equalsIgnoreCase(cliente.getGenero()) && cliente.getFechaNacimiento() != null) {
-                int edad = Period.between(cliente.getFechaNacimiento(), LocalDate.now()).getYears();
-                if (edad < 25) {
-                    return new RespuestaSujetoCredito(false, codCliente, "RN-03: Los clientes de género masculino deben tener al menos 25 años.");
-                }
-            }
-
-            // RN-04: No tener crédito actualmente activo
-            boolean tieneActivo = creditoDAO.tieneCreditoActivo(codCliente);
-            if (tieneActivo) {
-                return new RespuestaSujetoCredito(false, codCliente, "RN-04: El cliente ya mantiene un crédito activo en BanQuito.");
-            }
-
-            // Cumple todas las condiciones
-            return new RespuestaSujetoCredito(true, codCliente, "El cliente es sujeto de crédito calificado.");
+            return new RespuestaSujetoCredito(true, cliente.getCodCliente(), "El cliente es sujeto de crédito.");
 
         } catch (SQLException e) {
-            return new RespuestaSujetoCredito(false, null, "Error en base de datos: " + e.getMessage());
+            throw ExcepcionNegocio.baseDatos(e);
         }
     }
 
     public BigDecimal calcularMontoMaximo(int codCliente) {
+        if (codCliente <= 0) {
+            throw new ExcepcionNegocio(CodigoError.VAL_001, "El código de cliente debe ser mayor a cero.");
+        }
         try {
-            BigDecimal promDep = movimientoDAO.calcularPromedioUltimos3Meses(codCliente, "DEP");
-            BigDecimal promRet = movimientoDAO.calcularPromedioUltimos3Meses(codCliente, "RET");
-
-            BigDecimal diferencia = promDep.subtract(promRet);
-            if (diferencia.compareTo(BigDecimal.ZERO) <= 0) {
-                return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+            if (clienteDAO.buscarPorId(codCliente) == null) {
+                throw new ExcepcionNegocio(CodigoError.CLI_001);
             }
-
-            // Fórmula: ((promDep - promRet) * 0.30) * 6
-            BigDecimal porcentaje = new BigDecimal("0.30");
-            BigDecimal multiplicador = new BigDecimal("6");
-            return diferencia.multiply(porcentaje).multiply(multiplicador).setScale(2, RoundingMode.HALF_UP);
-
+            return montoMaximo(codCliente);
         } catch (SQLException e) {
-            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+            throw ExcepcionNegocio.baseDatos(e);
         }
     }
 
     public RespuestaCredito otorgarCredito(int codCliente, BigDecimal monto, int cuotas) {
-        if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
-            return new RespuestaCredito(false, 0, BigDecimal.ZERO, "El monto del crédito debe ser mayor a cero.", Collections.emptyList());
+        if (codCliente <= 0 || monto == null || monto.signum() <= 0) {
+            return rechazo(CodigoError.VAL_001.mensaje("El código de cliente y el monto deben ser mayores a cero."));
         }
         if (cuotas < 3 || cuotas > 18) {
-            return new RespuestaCredito(false, 0, BigDecimal.ZERO, "El plazo del crédito debe estar entre 3 y 18 meses.", Collections.emptyList());
+            return rechazo(CodigoError.CRE_003.mensaje());
         }
 
         try {
             Cliente cliente = clienteDAO.buscarPorId(codCliente);
             if (cliente == null) {
-                return new RespuestaCredito(false, 0, BigDecimal.ZERO, "Cliente no encontrado.", Collections.emptyList());
+                return rechazo(CodigoError.CLI_001.mensaje());
             }
 
-            BigDecimal montoMaximo = calcularMontoMaximo(codCliente);
-            if (monto.compareTo(montoMaximo) > 0) {
-                return new RespuestaCredito(false, 0, BigDecimal.ZERO,
-                    "El monto solicitado ($" + monto + ") supera el monto máximo permitido ($" + montoMaximo + ").",
-                    Collections.emptyList());
+            // Se vuelven a aplicar las reglas porque el servicio puede invocarse sin verificar antes al cliente
+            String motivo = motivoRechazo(cliente);
+            if (motivo != null) {
+                return rechazo(CodigoError.CRE_001.mensaje(motivo));
+            }
+
+            BigDecimal montoCredito = monto.setScale(2, RoundingMode.HALF_UP);
+            BigDecimal montoMaximo = montoMaximo(codCliente);
+            if (montoCredito.compareTo(montoMaximo) > 0) {
+                return rechazo(CodigoError.CRE_002.mensaje("Monto máximo aprobado: $" + montoMaximo + "."));
             }
 
             // Generar tabla de amortización
-            List<CuotaAmortizacion> amortizacion = CalculadoraAmortizacion.generarTabla(monto, cuotas, CalculadoraAmortizacion.TASA_ANUAL_DEFAULT);
+            List<CuotaAmortizacion> amortizacion = CalculadoraAmortizacion.generarTabla(montoCredito, cuotas, CalculadoraAmortizacion.TASA_ANUAL_DEFAULT);
             BigDecimal cuotaFija = amortizacion.get(0).getValorCuota();
 
             Credito credito = new Credito(
                 0,
                 codCliente,
-                monto,
+                montoCredito,
                 cuotas,
                 CalculadoraAmortizacion.TASA_ANUAL_DEFAULT,
                 cuotaFija,
@@ -127,20 +115,65 @@ public class ServicioCredito {
                 true,
                 codCreditoGenerado,
                 cuotaFija,
-                "Crédito otorgado exitosamente con código " + codCreditoGenerado,
+                "Crédito " + codCreditoGenerado + " otorgado: " + cuotas + " cuotas de $" + cuotaFija + ".",
                 amortizacion
             );
 
         } catch (SQLException e) {
-            return new RespuestaCredito(false, 0, BigDecimal.ZERO, "Error al registrar crédito: " + e.getMessage(), Collections.emptyList());
+            throw ExcepcionNegocio.baseDatos(e);
         }
     }
 
     public List<CuotaAmortizacion> consultarTabla(int codCredito) {
-        try {
-            return creditoDAO.consultarTablaAmortizacion(codCredito);
-        } catch (SQLException e) {
-            return Collections.emptyList();
+        if (codCredito <= 0) {
+            throw new ExcepcionNegocio(CodigoError.VAL_001, "El código de crédito debe ser mayor a cero.");
         }
+        try {
+            List<CuotaAmortizacion> tabla = creditoDAO.consultarTablaAmortizacion(codCredito);
+            if (tabla.isEmpty()) {
+                throw new ExcepcionNegocio(CodigoError.VAL_001, "El crédito " + codCredito + " no existe.");
+            }
+            return tabla;
+        } catch (SQLException e) {
+            throw ExcepcionNegocio.baseDatos(e);
+        }
+    }
+
+    // RN-02 a RN-04: devuelve el motivo del rechazo, o null si el cliente es sujeto de crédito
+    private String motivoRechazo(Cliente cliente) throws SQLException {
+        int codCliente = cliente.getCodCliente();
+
+        // RN-02: Tener al menos un depósito en el último mes
+        if (movimientoDAO.contarDepositosUltimoMes(codCliente) <= 0) {
+            return "no registra depósitos en los últimos 30 días.";
+        }
+
+        // RN-03: Si es hombre, edad >= 25 años
+        if ("M".equalsIgnoreCase(cliente.getGenero())
+                && Period.between(cliente.getFechaNacimiento(), LocalDate.now()).getYears() < 25) {
+            return "los clientes de género masculino deben tener al menos 25 años.";
+        }
+
+        // RN-04: No tener crédito actualmente activo
+        if (creditoDAO.tieneCreditoActivo(codCliente)) {
+            return "ya mantiene un crédito activo en BanQuito.";
+        }
+        return null;
+    }
+
+    // RN-05: ((promDep - promRet de los últimos 3 meses) * 0.30) * 6; si el resultado es negativo, el monto es 0
+    private BigDecimal montoMaximo(int codCliente) throws SQLException {
+        BigDecimal promDep = movimientoDAO.calcularPromedioUltimos3Meses(codCliente, "DEP");
+        BigDecimal promRet = movimientoDAO.calcularPromedioUltimos3Meses(codCliente, "RET");
+
+        BigDecimal diferencia = promDep.subtract(promRet);
+        if (diferencia.signum() <= 0) {
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        }
+        return diferencia.multiply(PORCENTAJE).multiply(MESES).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private RespuestaCredito rechazo(String mensaje) {
+        return new RespuestaCredito(false, 0, BigDecimal.ZERO, mensaje, Collections.emptyList());
     }
 }

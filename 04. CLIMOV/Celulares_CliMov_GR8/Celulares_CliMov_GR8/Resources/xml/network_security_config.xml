@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Payara local publica los servicios por HTTP: se permite tráfico sin cifrar para el ambiente de pruebas -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

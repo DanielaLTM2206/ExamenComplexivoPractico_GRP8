@@ -24,7 +24,7 @@ public class CelularDAO {
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return new Celular(rs.getInt(1), marca, modelo, precio, 1);
+                    return new Celular(rs.getInt(1), marca, modelo, precio, true);
                 }
             }
         }
@@ -45,7 +45,7 @@ public class CelularDAO {
                     rs.getString("marca"),
                     rs.getString("modelo"),
                     rs.getBigDecimal("precio"),
-                    rs.getInt("activo")
+                    rs.getBoolean("activo")
                 ));
             }
         }
@@ -64,7 +64,7 @@ public class CelularDAO {
                         rs.getString("marca"),
                         rs.getString("modelo"),
                         rs.getBigDecimal("precio"),
-                        rs.getInt("activo")
+                        rs.getBoolean("activo")
                     );
                 }
             }
@@ -72,14 +72,14 @@ public class CelularDAO {
         return null;
     }
 
-    public boolean actualizarCelular(int codCelular, String marca, String modelo, BigDecimal precio, int activo) throws SQLException {
+    public boolean actualizarCelular(int codCelular, String marca, String modelo, BigDecimal precio, boolean activo) throws SQLException {
         String sql = "UPDATE CELULAR SET marca = ?, modelo = ?, precio = ?, activo = ? WHERE cod_celular = ?";
         try (Connection cn = ConexionBDComercializadora.obtenerConexion();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, marca);
             ps.setString(2, modelo);
             ps.setBigDecimal(3, precio);
-            ps.setInt(4, activo);
+            ps.setBoolean(4, activo);
             ps.setInt(5, codCelular);
             return ps.executeUpdate() > 0;
         }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Capa de "Cargando…" que bloquea la pantalla mientras se espera al servidor -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/capaCargando"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#590F265C"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/fondo_dialogo"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ProgressBar
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:indeterminateTint="@color/azul" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Consultando al servidor…"
+            android:textColor="@color/azul"
+            android:textStyle="bold" />
+    </LinearLayout>
+</FrameLayout>

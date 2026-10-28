@@ -1,0 +1,25 @@
+<%@ page pageEncoding="UTF-8" %>
+<%-- Cabecera común: cada vista define antes ${titulo} y ${seccion} --%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><c:out value="${titulo}" /> | Comercializadora de Celulares</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estilos.css">
+</head>
+<body>
+<header class="barra">
+    <a class="marca" href="${pageContext.request.contextPath}/inicio">
+        <span class="marca-icono" aria-hidden="true"></span>
+        <span class="marca-texto">Comercializadora de Celulares<small>Crédito directo BanQuito · Grupo 08</small></span>
+    </a>
+    <nav class="menu">
+        <a href="${pageContext.request.contextPath}/inicio" class="${seccion == 'inicio' ? 'activo' : ''}">Inicio</a>
+        <a href="${pageContext.request.contextPath}/catalogo" class="${seccion == 'catalogo' ? 'activo' : ''}">Catálogo</a>
+        <a href="${pageContext.request.contextPath}/facturar" class="${seccion == 'facturar' ? 'activo' : ''}">Facturar</a>
+        <a href="${pageContext.request.contextPath}/factura" class="${seccion == 'factura' ? 'activo' : ''}">Facturas</a>
+        <a href="${pageContext.request.contextPath}/amortizacion" class="${seccion == 'amortizacion' ? 'activo' : ''}">Amortización</a>
+    </nav>
+</header>
+<main class="contenido">

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ec.edu.monster</RootNamespace>
+    <ApplicationId>ec.edu.monster.celulares</ApplicationId>
+    <ApplicationTitle>Celulares GR8</ApplicationTitle>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <!-- El cliente WCF usa reflexión (XmlSerializer): en Release solo se recortan los ensamblados marcados como recortables -->
+    <TrimMode>partial</TrimMode>
+    <!-- CS8981: el proxy generado por svcutil usa los nombres en minúscula del WSDL (celular, factura) -->
+    <NoWarn>$(NoWarn);CS8981</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="10.1.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="10.1.0" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.14.0.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.ServiceModel.Primitives" />
+    <TrimmerRootAssembly Include="System.ServiceModel.Http" />
+    <None Remove="Modelo\dotnet-svcutil.params.json" />
+  </ItemGroup>
+</Project>

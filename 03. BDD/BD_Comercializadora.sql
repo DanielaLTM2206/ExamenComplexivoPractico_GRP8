@@ -11,6 +11,11 @@ DROP DATABASE IF EXISTS comercializadora;
 CREATE DATABASE comercializadora CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
 USE comercializadora;
 
+-- Usuario de la aplicación: los servidores se conectan con Monster / Monster9 (no con root)
+CREATE USER IF NOT EXISTS 'Monster'@'localhost' IDENTIFIED BY 'Monster9';
+ALTER USER 'Monster'@'localhost' IDENTIFIED BY 'Monster9';
+GRANT SELECT, INSERT, UPDATE, DELETE ON comercializadora.* TO 'Monster'@'localhost';
+
 -- ---------------------------------------------------------------------
 -- Tablas
 -- ---------------------------------------------------------------------

@@ -13,6 +13,11 @@ DROP DATABASE IF EXISTS banquito;
 CREATE DATABASE banquito CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
 USE banquito;
 
+-- Usuario de la aplicación: los servidores se conectan con Monster / Monster9 (no con root)
+CREATE USER IF NOT EXISTS 'Monster'@'localhost' IDENTIFIED BY 'Monster9';
+ALTER USER 'Monster'@'localhost' IDENTIFIED BY 'Monster9';
+GRANT SELECT, INSERT, UPDATE, DELETE ON banquito.* TO 'Monster'@'localhost';
+
 -- ---------------------------------------------------------------------
 -- Tablas
 -- ---------------------------------------------------------------------
@@ -79,7 +84,7 @@ CREATE TABLE AMORTIZACION (
 
 -- ---------------------------------------------------------------------
 -- Datos de prueba: clientes (cada uno cubre un caso de las reglas RN-01 a RN-05)
--- Para probar CLI-001 (no es cliente) usar la cédula 1799999998.
+-- Para probar CLI-001 (no es cliente) usar la cédula 1717171712 (válida, no registrada).
 -- ---------------------------------------------------------------------
 
 -- 1. SÍ es sujeto (hombre de 36 años); tuvo un crédito ya CANCELADO; monto máximo 1440.00
@@ -229,10 +234,10 @@ FROM (
                    WHERE cr.cod_cliente = c.cod_cliente AND cr.estado = 'ACTIVO') AS credito_activo,
            COALESCE((SELECT AVG(m.valor) FROM MOVIMIENTO m JOIN CUENTA cu ON cu.num_cuenta = m.num_cuenta
                      WHERE cu.cod_cliente = c.cod_cliente AND m.tipo = 'DEP'
-                       AND m.fecha >= CURDATE() - INTERVAL 3 MONTH), 0) AS prom_dep,
+                       AND m.fecha >= CURDATE() - INTERVAL 90 DAY), 0) AS prom_dep,
            COALESCE((SELECT AVG(m.valor) FROM MOVIMIENTO m JOIN CUENTA cu ON cu.num_cuenta = m.num_cuenta
                      WHERE cu.cod_cliente = c.cod_cliente AND m.tipo = 'RET'
-                       AND m.fecha >= CURDATE() - INTERVAL 3 MONTH), 0) AS prom_ret
+                       AND m.fecha >= CURDATE() - INTERVAL 90 DAY), 0) AS prom_ret
     FROM CLIENTE c
 ) r
 ORDER BY r.cod_cliente;

@@ -8,11 +8,11 @@ public class Celular implements Serializable {
     private String marca;
     private String modelo;
     private BigDecimal precio;
-    private int activo; // 1 = activo, 0 = inactivo (borrado lógico)
+    private boolean activo; // false = inactivo (borrado lógico)
 
     public Celular() {}
 
-    public Celular(int codCelular, String marca, String modelo, BigDecimal precio, int activo) {
+    public Celular(int codCelular, String marca, String modelo, BigDecimal precio, boolean activo) {
         this.codCelular = codCelular;
         this.marca = marca;
         this.modelo = modelo;
@@ -32,6 +32,6 @@ public class Celular implements Serializable {
     public BigDecimal getPrecio() { return precio; }
     public void setPrecio(BigDecimal precio) { this.precio = precio; }
 
-    public int getActivo() { return activo; }
-    public void setActivo(int activo) { this.activo = activo; }
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 }

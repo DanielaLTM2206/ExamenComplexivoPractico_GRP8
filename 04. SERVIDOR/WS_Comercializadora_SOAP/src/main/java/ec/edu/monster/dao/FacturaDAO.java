@@ -9,13 +9,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class FacturaDAO {
 
+    // Mismo formato con el que MySQL devuelve un DATETIME, para que la fecha se vea igual al emitir y al consultar
+    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public Factura registrarFactura(Factura factura, DetalleFactura detalle) throws SQLException {
         String sqlFactura = "INSERT INTO FACTURA (cedula, nombre, fecha, forma_pago, subtotal, descuento, total, cod_credito) " +
-                            "VALUES (?, ?, NOW(), ?, ?, ?, ?, ?)";
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        LocalDateTime fecha = LocalDateTime.now().withNano(0);
         String sqlDetalle = "INSERT INTO DETALLE_FACTURA (num_factura, cod_celular, cantidad, precio_unitario, subtotal) " +
                             "VALUES (?, ?, ?, ?, ?)";
 
@@ -26,14 +33,15 @@ public class FacturaDAO {
                 try (PreparedStatement psFact = cn.prepareStatement(sqlFactura, Statement.RETURN_GENERATED_KEYS)) {
                     psFact.setString(1, factura.getCedula());
                     psFact.setString(2, factura.getNombre());
-                    psFact.setString(3, factura.getFormaPago());
-                    psFact.setBigDecimal(4, factura.getSubtotal());
-                    psFact.setBigDecimal(5, factura.getDescuento());
-                    psFact.setBigDecimal(6, factura.getTotal());
+                    psFact.setTimestamp(3, Timestamp.valueOf(fecha));
+                    psFact.setString(4, factura.getFormaPago());
+                    psFact.setBigDecimal(5, factura.getSubtotal());
+                    psFact.setBigDecimal(6, factura.getDescuento());
+                    psFact.setBigDecimal(7, factura.getTotal());
                     if (factura.getCodCredito() != null) {
-                        psFact.setInt(7, factura.getCodCredito());
+                        psFact.setInt(8, factura.getCodCredito());
                     } else {
-                        psFact.setNull(7, Types.INTEGER);
+                        psFact.setNull(8, Types.INTEGER);
                     }
                     psFact.executeUpdate();
 
@@ -57,6 +65,7 @@ public class FacturaDAO {
 
                 cn.commit();
                 factura.setNumFactura(numFacturaGenerado);
+                factura.setFecha(fecha.format(FORMATO_FECHA));
                 detalle.setNumFactura(numFacturaGenerado);
                 factura.getDetalles().clear();
                 factura.getDetalles().add(detalle);
