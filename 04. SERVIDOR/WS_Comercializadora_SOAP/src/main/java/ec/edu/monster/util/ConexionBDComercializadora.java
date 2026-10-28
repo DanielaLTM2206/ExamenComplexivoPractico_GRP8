@@ -15,6 +15,10 @@ public class ConexionBDComercializadora {
         } catch (ClassNotFoundException e) {
             throw new SQLException("Driver MySQL no encontrado", e);
         }
-        return DriverManager.getConnection(URL, USER, PASS);
+        try {
+            return DriverManager.getConnection(URL, "Monster", "Monster9");
+        } catch (SQLException e) {
+            return DriverManager.getConnection(URL, "root", "root");
+        }
     }
 }
