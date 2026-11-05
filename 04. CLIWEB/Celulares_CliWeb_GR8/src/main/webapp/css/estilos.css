@@ -268,3 +268,21 @@ input.invalido { border-color: var(--error); }
     .opciones-pago { grid-template-columns: 1fr; }
     .tabla { display: block; overflow-x: auto; }
 }
+
+/* ---------- Autocompletado del comprador (Facturar) ---------- */
+.ayuda-cedula:empty { display: none; }
+.ayuda-cedula.ok { color: var(--exito); font-weight: 600; }
+.ayuda-cedula.aviso { color: #B45309; font-weight: 600; }
+.ayuda-cedula.falla { color: var(--error); font-weight: 600; }
+input.bloqueado { background: #E8ECF5; color: var(--azul); font-weight: 600; cursor: not-allowed; }
+input.bloqueado:focus { box-shadow: none; border-color: var(--borde); }
+
+/* ---------- Carrito de la venta (Facturar) ---------- */
+.agregar-item { display: grid; grid-template-columns: 1fr 80px auto; gap: 8px; }
+.agregar-item input { text-align: center; }
+.carrito { margin-top: -4px; }
+.carrito td, .carrito th { padding: 8px 10px; }
+.carrito[hidden] { display: none; }
+.formulario .vacio { margin: 0; padding: 14px; border: 1.5px dashed var(--borde); border-radius: 10px; }
+.formulario .vacio[hidden] { display: none; }
+@media (max-width: 560px) { .agregar-item { grid-template-columns: 1fr 70px; } .agregar-item .boton { grid-column: 1 / -1; } }

@@ -69,6 +69,13 @@ public class ServicioComercializadora
     public async Task<factura> FacturarCreditoAsync(string cedula, string nombre, int codCelular, int numeroCuotas) =>
         (await Invocar(c => c.facturarCreditoAsync(cedula, nombre, codCelular, numeroCuotas))).@return;
 
+    // Venta de uno o varios celulares (el crédito de BanQuito cubre el total de la venta)
+    public async Task<factura> FacturarVentaEfectivoAsync(string cedula, string nombre, itemVenta[] items) =>
+        (await Invocar(c => c.facturarVentaEfectivoAsync(cedula, nombre, items))).@return;
+
+    public async Task<factura> FacturarVentaCreditoAsync(string cedula, string nombre, itemVenta[] items, int numeroCuotas) =>
+        (await Invocar(c => c.facturarVentaCreditoAsync(cedula, nombre, items, numeroCuotas))).@return;
+
     public async Task<factura> ObtenerFacturaAsync(int numFactura) =>
         (await Invocar(c => c.obtenerFacturaAsync(numFactura))).@return;
 

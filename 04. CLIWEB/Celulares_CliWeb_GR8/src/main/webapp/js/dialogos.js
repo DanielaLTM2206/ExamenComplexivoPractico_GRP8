@@ -125,16 +125,19 @@
         });
     });
 
-    // ---------- Resumen de la factura (solo en /facturar) ----------
+    // ---------- Carrito y resumen de la factura (solo en /facturar) ----------
     const formFactura = document.getElementById("form-factura");
     if (!formFactura) return;
 
     const DESCUENTO = 0.42;
     const TASA_MENSUAL = 0.165 / 12;
-    const celular = document.getElementById("codCelular");
-    const cantidad = document.getElementById("cantidad");
-    const cuotas = document.getElementById("numeroCuotas");
+    const MAX_CELULARES = 10;
     const $ = function (id) { return document.getElementById(id); };
+    const selCelular = $("codCelular");
+    const txtCantidad = $("cantidad");
+    const cuotas = $("numeroCuotas");
+    const cuerpoCarrito = $("carrito").querySelector("tbody");
+    const carrito = []; // { cod, texto, precio, cantidad }
     const moneda = function (v) {
         return "$" + v.toLocaleString("es-EC", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     };
@@ -143,9 +146,54 @@
         return formFactura.querySelector("input[name=formaPago]:checked").value;
     }
 
+    function datosCelular(cod) {
+        const opcion = selCelular.querySelector("option[value='" + cod + "']");
+        return opcion ? { cod: String(cod), texto: opcion.dataset.texto, precio: Number(opcion.dataset.precio) } : null;
+    }
+
+    // Si el celular ya está en el carrito se suman las cantidades (máximo 99 por celular)
+    function agregar(cod, cantidad) {
+        const datos = datosCelular(cod);
+        if (!datos) return "El celular seleccionado ya no está disponible.";
+        const existente = carrito.find(function (i) { return i.cod === datos.cod; });
+        if (existente) {
+            if (existente.cantidad + cantidad > 99) return "La cantidad de cada celular no puede superar 99.";
+            existente.cantidad += cantidad;
+        } else {
+            if (carrito.length >= MAX_CELULARES) return "Una factura admite máximo " + MAX_CELULARES + " celulares distintos.";
+            carrito.push(Object.assign(datos, { cantidad: cantidad }));
+        }
+        return null;
+    }
+
+    function pintarCarrito() {
+        cuerpoCarrito.innerHTML = "";
+        carrito.forEach(function (item, i) {
+            const fila = document.createElement("tr");
+            fila.innerHTML =
+                "<td></td><td class='num'></td><td class='num'></td><td class='num'></td>" +
+                "<td class='acciones'><button type='button' class='boton boton-peligro boton-chico'>Quitar</button>" +
+                "<input type='hidden' name='itemCelular'><input type='hidden' name='itemCantidad'></td>";
+            const celdas = fila.querySelectorAll("td");
+            celdas[0].textContent = item.texto;
+            celdas[1].textContent = moneda(item.precio);
+            celdas[2].textContent = item.cantidad;
+            celdas[3].textContent = moneda(Math.round(item.precio * item.cantidad * 100) / 100);
+            fila.querySelector("input[name=itemCelular]").value = item.cod;
+            fila.querySelector("input[name=itemCantidad]").value = item.cantidad;
+            fila.querySelector("button").addEventListener("click", function () {
+                carrito.splice(i, 1);
+                pintarCarrito();
+            });
+            cuerpoCarrito.appendChild(fila);
+        });
+        $("carrito").hidden = carrito.length === 0;
+        $("carrito-vacio").hidden = carrito.length > 0;
+        actualizar();
+    }
+
     function actualizar() {
         const credito = formaPago() === "CREDITO";
-        $("campo-cantidad").hidden = credito;
         $("campo-cuotas").hidden = !credito;
         $("r-etq-descuento").hidden = $("r-descuento").hidden = credito;
         $("r-etq-cuota").hidden = $("r-cuota").hidden = !credito;
@@ -153,15 +201,13 @@
         $("r-etq-subtotal").textContent = credito ? "Monto a financiar" : "Subtotal";
         $("r-etq-total").textContent = credito ? "Total financiado" : "Total a pagar";
 
-        const opcion = celular.options[celular.selectedIndex];
-        const precio = opcion && opcion.dataset.precio ? Number(opcion.dataset.precio) : NaN;
-        if (isNaN(precio)) {
-            ["r-precio", "r-subtotal", "r-descuento", "r-cuota", "r-total"].forEach(function (id) { $(id).textContent = "—"; });
+        const unidades = carrito.reduce(function (s, i) { return s + i.cantidad; }, 0);
+        $("r-unidades").textContent = unidades;
+        if (carrito.length === 0) {
+            ["r-subtotal", "r-descuento", "r-cuota", "r-total"].forEach(function (id) { $(id).textContent = "—"; });
             return;
         }
-        const cant = credito ? 1 : Math.max(1, parseInt(cantidad.value, 10) || 1);
-        const subtotal = Math.round(precio * cant * 100) / 100;
-        $("r-precio").textContent = moneda(precio);
+        const subtotal = Math.round(carrito.reduce(function (s, i) { return s + i.precio * i.cantidad; }, 0) * 100) / 100;
         $("r-subtotal").textContent = moneda(subtotal);
         if (credito) {
             const n = parseInt(cuotas.value, 10);
@@ -175,7 +221,102 @@
         }
     }
 
-    formFactura.addEventListener("input", actualizar);
+    $("btn-agregar").addEventListener("click", function () {
+        if (!selCelular.value) {
+            Dialogo.error("Seleccione el celular que desea agregar.").then(function () { selCelular.focus(); });
+            return;
+        }
+        const cantidad = parseInt(txtCantidad.value, 10);
+        if (!(cantidad >= 1 && cantidad <= 99)) {
+            Dialogo.error("La cantidad debe ser un número entero entre 1 y 99.").then(function () { txtCantidad.focus(); });
+            return;
+        }
+        const problema = agregar(selCelular.value, cantidad);
+        if (problema) {
+            Dialogo.error(problema);
+            return;
+        }
+        selCelular.value = "";
+        txtCantidad.value = "1";
+        pintarCarrito();
+    });
+
+    // Al emitir, la venta debe tener al menos un celular
+    formFactura.addEventListener("submit", function (e) {
+        if (carrito.length === 0 && !e.defaultPrevented) {
+            e.preventDefault();
+            Dialogo.error("Agregue al menos un celular a la venta antes de emitir la factura.").then(function () { selCelular.focus(); });
+        }
+    });
+
     formFactura.addEventListener("change", actualizar);
-    actualizar();
+    // Carrito que devolvió el servidor tras un error ("cod:cantidad,cod:cantidad")
+    ($("carrito").dataset.carrito || "").split(",").forEach(function (par) {
+        const partes = par.split(":");
+        if (partes.length === 2) agregar(partes[0], parseInt(partes[1], 10));
+    });
+    pintarCarrito();
+
+    // ---------- Autocompletar el nombre con la cédula (lo consulta la comercializadora a BanQuito) ----------
+    // Si la cédula es de un cliente del banco, el nombre es el de BanQuito y el campo queda bloqueado.
+    const txtCedula = $("cedula");
+    const txtNombre = $("nombre");
+    const ayuda = $("ayuda-cedula");
+    let consulta = 0; // descarta respuestas de cédulas que ya se cambiaron
+
+    function mostrarAyuda(texto, tipo) {
+        ayuda.textContent = texto;
+        ayuda.className = "nota ayuda-cedula" + (tipo ? " " + tipo : "");
+    }
+
+    function bloquearNombre(nombre) {
+        txtNombre.value = nombre;
+        txtNombre.readOnly = true;
+        txtNombre.classList.add("bloqueado");
+        txtNombre.classList.remove("invalido");
+        txtNombre.title = "Nombre registrado en BanQuito";
+    }
+
+    // Quita el nombre que puso BanQuito (no lo que el usuario escribió en un campo libre)
+    function liberarNombre() {
+        if (txtNombre.readOnly) txtNombre.value = "";
+        txtNombre.readOnly = false;
+        txtNombre.classList.remove("bloqueado");
+        txtNombre.title = "";
+    }
+
+    function buscarComprador() {
+        const ced = txtCedula.value.trim();
+        const actual = ++consulta;
+        liberarNombre();
+        if (ced.length < 10) {
+            mostrarAyuda("", "");
+            return;
+        }
+        if (!cedulaValida(ced)) {
+            mostrarAyuda("La cédula no es válida: revise el dígito verificador.", "falla");
+            return;
+        }
+        mostrarAyuda("Consultando a BanQuito…", "");
+        fetch(txtCedula.dataset.buscar + "?cedula=" + encodeURIComponent(ced), { headers: { "Accept": "application/json" } })
+            .then(function (r) { return r.json(); })
+            .then(function (datos) {
+                if (actual !== consulta) return; // ya escribieron otra cédula
+                if (datos.encontrado) {
+                    bloquearNombre(datos.nombre);
+                    mostrarAyuda("✓ Cliente de BanQuito: nombre tomado del banco.", "ok");
+                } else {
+                    mostrarAyuda(datos.mensaje, "aviso");
+                    txtNombre.focus();
+                }
+            })
+            .catch(function () {
+                if (actual !== consulta) return;
+                mostrarAyuda("No se pudo consultar el nombre; escríbalo manualmente.", "aviso");
+            });
+    }
+
+    txtCedula.addEventListener("input", buscarComprador);
+    // Al cargar (y al volver con "Atrás", cuando el navegador restaura los campos) se consulta la cédula escrita
+    window.addEventListener("pageshow", function () { if (txtCedula.value) buscarComprador(); });
 })();

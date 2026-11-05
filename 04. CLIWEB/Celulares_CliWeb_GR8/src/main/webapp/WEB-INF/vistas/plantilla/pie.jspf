@@ -24,6 +24,6 @@
      data-mensaje="${fn:escapeXml(not empty error ? error : sessionScope.aviso)}"></div>
 <c:remove var="aviso" scope="session" />
 
-<script src="${pageContext.request.contextPath}/js/dialogos.js"></script>
+<script src="${pageContext.request.contextPath}/js/dialogos.js?v=20261105c"></script>
 </body>
 </html>

@@ -2,7 +2,9 @@ package ec.edu.monster;
 
 import ec.edu.monster.proxy.Celular;
 import ec.edu.monster.proxy.CuotaAmortizacion;
+import ec.edu.monster.proxy.DetalleFactura;
 import ec.edu.monster.proxy.Factura;
+import ec.edu.monster.proxy.ItemVenta;
 import ec.edu.monster.proxy.WSComercializadora;
 import ec.edu.monster.proxy.WSComercializadora_Service;
 
@@ -13,7 +15,10 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Celulares_CliCon_GR8 {
@@ -29,6 +34,9 @@ public class Celulares_CliCon_GR8 {
             System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err), true, StandardCharsets.UTF_8));
         }
     }
+
+    private static final int MAX_CELULARES = 10;
+    private static final int MAX_CANTIDAD = 99;
 
     private static WSComercializadora servicio;
     private static final Scanner scanner = new Scanner(System.in, CODIFICACION);
@@ -241,12 +249,13 @@ public class Celulares_CliCon_GR8 {
             String cedula = scanner.nextLine().trim();
             System.out.print("Nombre completo: ");
             String nombre = scanner.nextLine().trim();
-            System.out.print("ID del celular a comprar: ");
-            int idCelular = Integer.parseInt(scanner.nextLine().trim());
-            System.out.print("Cantidad: ");
-            int cantidad = Integer.parseInt(scanner.nextLine().trim());
+            List<ItemVenta> carrito = leerCarrito();
+            if (carrito.isEmpty()) {
+                System.out.println("Venta cancelada: no se agregó ningún celular.");
+                return;
+            }
 
-            Factura f = servicio.facturarEfectivo(cedula, nombre, idCelular, cantidad);
+            Factura f = servicio.facturarVentaEfectivo(cedula, nombre, carrito);
             if (f != null) {
                 imprimirFactura(f);
             }
@@ -262,13 +271,16 @@ public class Celulares_CliCon_GR8 {
             String cedula = scanner.nextLine().trim();
             System.out.print("Nombre completo: ");
             String nombre = scanner.nextLine().trim();
-            System.out.print("ID del celular a financiar: ");
-            int idCelular = Integer.parseInt(scanner.nextLine().trim());
+            List<ItemVenta> carrito = leerCarrito();
+            if (carrito.isEmpty()) {
+                System.out.println("Venta cancelada: no se agregó ningún celular.");
+                return;
+            }
             System.out.print("Plazo de financiamiento en meses (3 a 18): ");
             int cuotas = Integer.parseInt(scanner.nextLine().trim());
 
-            System.out.println("Consultando evaluación crediticia en Core BanQuito...");
-            Factura f = servicio.facturarCredito(cedula, nombre, idCelular, cuotas);
+            System.out.println("Consultando evaluación crediticia en Core BanQuito (el crédito cubre el total de la venta)...");
+            Factura f = servicio.facturarVentaCredito(cedula, nombre, carrito, cuotas);
             if (f != null) {
                 imprimirFactura(f);
                 if (f.getCodCredito() != null) {
@@ -279,6 +291,82 @@ public class Celulares_CliCon_GR8 {
         } catch (Exception e) {
             System.err.println("\n>>> CRÉDITO NO APROBADO: " + e.getMessage());
         }
+    }
+
+    // Carrito de la venta: se agregan celulares hasta responder N; el mismo celular repetido suma su cantidad
+    private static List<ItemVenta> leerCarrito() {
+        Map<Integer, Integer> cantidades = new LinkedHashMap<>();
+        Map<Integer, Celular> catalogo = new LinkedHashMap<>();
+        try {
+            for (Celular c : servicio.listarCelulares(true)) {
+                catalogo.put(c.getCodCelular(), c);
+            }
+        } catch (Exception e) {
+            System.err.println("No se pudo cargar el catálogo: " + e.getMessage());
+        }
+
+        while (true) {
+            System.out.print("\nID del celular a agregar (Enter para terminar): ");
+            String linea = scanner.nextLine().trim();
+            if (linea.isEmpty()) {
+                break;
+            }
+            int id;
+            int cantidad;
+            try {
+                id = Integer.parseInt(linea);
+                System.out.print("Cantidad (1 a " + MAX_CANTIDAD + "): ");
+                cantidad = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Ingrese solo números enteros.");
+                continue;
+            }
+            if (!catalogo.containsKey(id)) {
+                System.out.println("El celular " + id + " no existe o no está disponible. Revise el catálogo (opción 1).");
+                continue;
+            }
+            int nueva = cantidades.getOrDefault(id, 0) + cantidad;
+            if (cantidad < 1 || nueva > MAX_CANTIDAD) {
+                System.out.println("La cantidad de cada celular debe estar entre 1 y " + MAX_CANTIDAD + ".");
+                continue;
+            }
+            if (!cantidades.containsKey(id) && cantidades.size() >= MAX_CELULARES) {
+                System.out.println("Una factura admite máximo " + MAX_CELULARES + " celulares distintos.");
+                continue;
+            }
+            cantidades.put(id, nueva);
+            imprimirCarrito(cantidades, catalogo);
+
+            System.out.print("¿Agregar otro celular? (S/N): ");
+            if (!scanner.nextLine().trim().equalsIgnoreCase("S")) {
+                break;
+            }
+        }
+
+        List<ItemVenta> items = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> e : cantidades.entrySet()) {
+            ItemVenta item = new ItemVenta();
+            item.setCodCelular(e.getKey());
+            item.setCantidad(e.getValue());
+            items.add(item);
+        }
+        return items;
+    }
+
+    private static void imprimirCarrito(Map<Integer, Integer> cantidades, Map<Integer, Celular> catalogo) {
+        BigDecimal total = BigDecimal.ZERO;
+        System.out.println("+----+--------------------------------------+-------+--------------+");
+        System.out.println("| ID | CELULAR                              | CANT. |     SUBTOTAL |");
+        System.out.println("+----+--------------------------------------+-------+--------------+");
+        for (Map.Entry<Integer, Integer> e : cantidades.entrySet()) {
+            Celular c = catalogo.get(e.getKey());
+            BigDecimal subtotal = c.getPrecio().multiply(BigDecimal.valueOf(e.getValue()));
+            total = total.add(subtotal);
+            System.out.printf("| %2d | %-36s | %5d | %12.2f |%n", e.getKey(),
+                    truncar(c.getMarca() + " " + c.getModelo(), 36), e.getValue(), subtotal);
+        }
+        System.out.println("+----+--------------------------------------+-------+--------------+");
+        System.out.printf("  Subtotal de la venta: $%.2f%n", total);
     }
 
     private static void consultarAmortizacion() {
@@ -327,6 +415,12 @@ public class Celulares_CliCon_GR8 {
         System.out.println(" Forma de Pago  : " + f.getFormaPago());
         if (f.getCodCredito() != null) {
             System.out.println(" Código Crédito : #" + f.getCodCredito() + " (Aprobado BanQuito)");
+        }
+        System.out.println("--------------------------------------------------------");
+        for (DetalleFactura d : f.getDetalles()) {
+            System.out.printf(" %-30s %3d x %9.2f = %10.2f%n",
+                    truncar(d.getMarcaCelular() + " " + d.getModeloCelular(), 30),
+                    d.getCantidad(), d.getPrecioUnitario(), d.getSubtotal());
         }
         System.out.println("--------------------------------------------------------");
         System.out.printf(" Subtotal       : $%10.2f\n", f.getSubtotal());

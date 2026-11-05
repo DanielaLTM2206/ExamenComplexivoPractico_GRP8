@@ -26,6 +26,8 @@ public class ObjectFactory {
     private static final QName _ExcepcionComercializadora_QNAME = new QName("http://ws.monster.edu.ec/", "ExcepcionComercializadora");
     private static final QName _ActualizarCelular_QNAME = new QName("http://ws.monster.edu.ec/", "actualizarCelular");
     private static final QName _ActualizarCelularResponse_QNAME = new QName("http://ws.monster.edu.ec/", "actualizarCelularResponse");
+    private static final QName _BuscarComprador_QNAME = new QName("http://ws.monster.edu.ec/", "buscarComprador");
+    private static final QName _BuscarCompradorResponse_QNAME = new QName("http://ws.monster.edu.ec/", "buscarCompradorResponse");
     private static final QName _ConsultarAmortizacion_QNAME = new QName("http://ws.monster.edu.ec/", "consultarAmortizacion");
     private static final QName _ConsultarAmortizacionResponse_QNAME = new QName("http://ws.monster.edu.ec/", "consultarAmortizacionResponse");
     private static final QName _CrearCelular_QNAME = new QName("http://ws.monster.edu.ec/", "crearCelular");
@@ -36,6 +38,10 @@ public class ObjectFactory {
     private static final QName _FacturarCreditoResponse_QNAME = new QName("http://ws.monster.edu.ec/", "facturarCreditoResponse");
     private static final QName _FacturarEfectivo_QNAME = new QName("http://ws.monster.edu.ec/", "facturarEfectivo");
     private static final QName _FacturarEfectivoResponse_QNAME = new QName("http://ws.monster.edu.ec/", "facturarEfectivoResponse");
+    private static final QName _FacturarVentaCredito_QNAME = new QName("http://ws.monster.edu.ec/", "facturarVentaCredito");
+    private static final QName _FacturarVentaCreditoResponse_QNAME = new QName("http://ws.monster.edu.ec/", "facturarVentaCreditoResponse");
+    private static final QName _FacturarVentaEfectivo_QNAME = new QName("http://ws.monster.edu.ec/", "facturarVentaEfectivo");
+    private static final QName _FacturarVentaEfectivoResponse_QNAME = new QName("http://ws.monster.edu.ec/", "facturarVentaEfectivoResponse");
     private static final QName _ListarCelulares_QNAME = new QName("http://ws.monster.edu.ec/", "listarCelulares");
     private static final QName _ListarCelularesResponse_QNAME = new QName("http://ws.monster.edu.ec/", "listarCelularesResponse");
     private static final QName _ObtenerCelular_QNAME = new QName("http://ws.monster.edu.ec/", "obtenerCelular");
@@ -78,6 +84,26 @@ public class ObjectFactory {
      */
     public ActualizarCelularResponse createActualizarCelularResponse() {
         return new ActualizarCelularResponse();
+    }
+
+    /**
+     * Create an instance of {@link BuscarComprador }
+     * 
+     * @return
+     *     the new instance of {@link BuscarComprador }
+     */
+    public BuscarComprador createBuscarComprador() {
+        return new BuscarComprador();
+    }
+
+    /**
+     * Create an instance of {@link BuscarCompradorResponse }
+     * 
+     * @return
+     *     the new instance of {@link BuscarCompradorResponse }
+     */
+    public BuscarCompradorResponse createBuscarCompradorResponse() {
+        return new BuscarCompradorResponse();
     }
 
     /**
@@ -181,6 +207,46 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link FacturarVentaCredito }
+     * 
+     * @return
+     *     the new instance of {@link FacturarVentaCredito }
+     */
+    public FacturarVentaCredito createFacturarVentaCredito() {
+        return new FacturarVentaCredito();
+    }
+
+    /**
+     * Create an instance of {@link FacturarVentaCreditoResponse }
+     * 
+     * @return
+     *     the new instance of {@link FacturarVentaCreditoResponse }
+     */
+    public FacturarVentaCreditoResponse createFacturarVentaCreditoResponse() {
+        return new FacturarVentaCreditoResponse();
+    }
+
+    /**
+     * Create an instance of {@link FacturarVentaEfectivo }
+     * 
+     * @return
+     *     the new instance of {@link FacturarVentaEfectivo }
+     */
+    public FacturarVentaEfectivo createFacturarVentaEfectivo() {
+        return new FacturarVentaEfectivo();
+    }
+
+    /**
+     * Create an instance of {@link FacturarVentaEfectivoResponse }
+     * 
+     * @return
+     *     the new instance of {@link FacturarVentaEfectivoResponse }
+     */
+    public FacturarVentaEfectivoResponse createFacturarVentaEfectivoResponse() {
+        return new FacturarVentaEfectivoResponse();
+    }
+
+    /**
      * Create an instance of {@link ListarCelulares }
      * 
      * @return
@@ -281,6 +347,16 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ItemVenta }
+     * 
+     * @return
+     *     the new instance of {@link ItemVenta }
+     */
+    public ItemVenta createItemVenta() {
+        return new ItemVenta();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ExcepcionComercializadora }{@code >}
      * 
      * @param value
@@ -317,6 +393,32 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "actualizarCelularResponse")
     public JAXBElement<ActualizarCelularResponse> createActualizarCelularResponse(ActualizarCelularResponse value) {
         return new JAXBElement<>(_ActualizarCelularResponse_QNAME, ActualizarCelularResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BuscarComprador }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link BuscarComprador }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "buscarComprador")
+    public JAXBElement<BuscarComprador> createBuscarComprador(BuscarComprador value) {
+        return new JAXBElement<>(_BuscarComprador_QNAME, BuscarComprador.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BuscarCompradorResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link BuscarCompradorResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "buscarCompradorResponse")
+    public JAXBElement<BuscarCompradorResponse> createBuscarCompradorResponse(BuscarCompradorResponse value) {
+        return new JAXBElement<>(_BuscarCompradorResponse_QNAME, BuscarCompradorResponse.class, null, value);
     }
 
     /**
@@ -447,6 +549,58 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "facturarEfectivoResponse")
     public JAXBElement<FacturarEfectivoResponse> createFacturarEfectivoResponse(FacturarEfectivoResponse value) {
         return new JAXBElement<>(_FacturarEfectivoResponse_QNAME, FacturarEfectivoResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FacturarVentaCredito }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FacturarVentaCredito }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "facturarVentaCredito")
+    public JAXBElement<FacturarVentaCredito> createFacturarVentaCredito(FacturarVentaCredito value) {
+        return new JAXBElement<>(_FacturarVentaCredito_QNAME, FacturarVentaCredito.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FacturarVentaCreditoResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FacturarVentaCreditoResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "facturarVentaCreditoResponse")
+    public JAXBElement<FacturarVentaCreditoResponse> createFacturarVentaCreditoResponse(FacturarVentaCreditoResponse value) {
+        return new JAXBElement<>(_FacturarVentaCreditoResponse_QNAME, FacturarVentaCreditoResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FacturarVentaEfectivo }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FacturarVentaEfectivo }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "facturarVentaEfectivo")
+    public JAXBElement<FacturarVentaEfectivo> createFacturarVentaEfectivo(FacturarVentaEfectivo value) {
+        return new JAXBElement<>(_FacturarVentaEfectivo_QNAME, FacturarVentaEfectivo.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FacturarVentaEfectivoResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link FacturarVentaEfectivoResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "facturarVentaEfectivoResponse")
+    public JAXBElement<FacturarVentaEfectivoResponse> createFacturarVentaEfectivoResponse(FacturarVentaEfectivoResponse value) {
+        return new JAXBElement<>(_FacturarVentaEfectivoResponse_QNAME, FacturarVentaEfectivoResponse.class, null, value);
     }
 
     /**

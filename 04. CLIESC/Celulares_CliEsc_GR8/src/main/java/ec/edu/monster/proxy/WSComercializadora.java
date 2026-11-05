@@ -28,6 +28,61 @@ public interface WSComercializadora {
 
     /**
      * 
+     * @param cedula
+     * @param items
+     * @param nombre
+     * @return
+     *     returns ec.edu.monster.proxy.Factura
+     * @throws ExcepcionComercializadora_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "facturarVentaEfectivo", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarVentaEfectivo")
+    @ResponseWrapper(localName = "facturarVentaEfectivoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarVentaEfectivoResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/facturarVentaEfectivoRequest", output = "http://ws.monster.edu.ec/WSComercializadora/facturarVentaEfectivoResponse", fault = {
+        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/facturarVentaEfectivo/Fault/ExcepcionComercializadora")
+    })
+    public Factura facturarVentaEfectivo(
+        @WebParam(name = "cedula", targetNamespace = "")
+        String cedula,
+        @WebParam(name = "nombre", targetNamespace = "")
+        String nombre,
+        @WebParam(name = "items", targetNamespace = "")
+        List<ItemVenta> items)
+        throws ExcepcionComercializadora_Exception
+    ;
+
+    /**
+     * 
+     * @param cedula
+     * @param items
+     * @param nombre
+     * @param numeroCuotas
+     * @return
+     *     returns ec.edu.monster.proxy.Factura
+     * @throws ExcepcionComercializadora_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "facturarVentaCredito", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarVentaCredito")
+    @ResponseWrapper(localName = "facturarVentaCreditoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarVentaCreditoResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/facturarVentaCreditoRequest", output = "http://ws.monster.edu.ec/WSComercializadora/facturarVentaCreditoResponse", fault = {
+        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/facturarVentaCredito/Fault/ExcepcionComercializadora")
+    })
+    public Factura facturarVentaCredito(
+        @WebParam(name = "cedula", targetNamespace = "")
+        String cedula,
+        @WebParam(name = "nombre", targetNamespace = "")
+        String nombre,
+        @WebParam(name = "items", targetNamespace = "")
+        List<ItemVenta> items,
+        @WebParam(name = "numeroCuotas", targetNamespace = "")
+        int numeroCuotas)
+        throws ExcepcionComercializadora_Exception
+    ;
+
+    /**
+     * 
      * @param numFactura
      * @return
      *     returns java.util.List<ec.edu.monster.proxy.CuotaAmortizacion>
@@ -77,6 +132,35 @@ public interface WSComercializadora {
 
     /**
      * 
+     * @param cedula
+     * @param codCelular
+     * @param nombre
+     * @param numeroCuotas
+     * @return
+     *     returns ec.edu.monster.proxy.Factura
+     * @throws ExcepcionComercializadora_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "facturarCredito", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarCredito")
+    @ResponseWrapper(localName = "facturarCreditoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarCreditoResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/facturarCreditoRequest", output = "http://ws.monster.edu.ec/WSComercializadora/facturarCreditoResponse", fault = {
+        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/facturarCredito/Fault/ExcepcionComercializadora")
+    })
+    public Factura facturarCredito(
+        @WebParam(name = "cedula", targetNamespace = "")
+        String cedula,
+        @WebParam(name = "nombre", targetNamespace = "")
+        String nombre,
+        @WebParam(name = "codCelular", targetNamespace = "")
+        int codCelular,
+        @WebParam(name = "numeroCuotas", targetNamespace = "")
+        int numeroCuotas)
+        throws ExcepcionComercializadora_Exception
+    ;
+
+    /**
+     * 
      * @param activo
      * @param codCelular
      * @param marca
@@ -109,55 +193,6 @@ public interface WSComercializadora {
 
     /**
      * 
-     * @param cedula
-     * @param codCelular
-     * @param nombre
-     * @param numeroCuotas
-     * @return
-     *     returns ec.edu.monster.proxy.Factura
-     * @throws ExcepcionComercializadora_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "facturarCredito", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarCredito")
-    @ResponseWrapper(localName = "facturarCreditoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.FacturarCreditoResponse")
-    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/facturarCreditoRequest", output = "http://ws.monster.edu.ec/WSComercializadora/facturarCreditoResponse", fault = {
-        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/facturarCredito/Fault/ExcepcionComercializadora")
-    })
-    public Factura facturarCredito(
-        @WebParam(name = "cedula", targetNamespace = "")
-        String cedula,
-        @WebParam(name = "nombre", targetNamespace = "")
-        String nombre,
-        @WebParam(name = "codCelular", targetNamespace = "")
-        int codCelular,
-        @WebParam(name = "numeroCuotas", targetNamespace = "")
-        int numeroCuotas)
-        throws ExcepcionComercializadora_Exception
-    ;
-
-    /**
-     * 
-     * @param numFactura
-     * @return
-     *     returns ec.edu.monster.proxy.Factura
-     * @throws ExcepcionComercializadora_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "obtenerFactura", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerFactura")
-    @ResponseWrapper(localName = "obtenerFacturaResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerFacturaResponse")
-    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaRequest", output = "http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaResponse", fault = {
-        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/obtenerFactura/Fault/ExcepcionComercializadora")
-    })
-    public Factura obtenerFactura(
-        @WebParam(name = "numFactura", targetNamespace = "")
-        int numFactura)
-        throws ExcepcionComercializadora_Exception
-    ;
-
-    /**
-     * 
      * @param codCelular
      * @return
      *     returns boolean
@@ -171,26 +206,6 @@ public interface WSComercializadora {
         @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/eliminarCelular/Fault/ExcepcionComercializadora")
     })
     public boolean eliminarCelular(
-        @WebParam(name = "codCelular", targetNamespace = "")
-        int codCelular)
-        throws ExcepcionComercializadora_Exception
-    ;
-
-    /**
-     * 
-     * @param codCelular
-     * @return
-     *     returns ec.edu.monster.proxy.Celular
-     * @throws ExcepcionComercializadora_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "obtenerCelular", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerCelular")
-    @ResponseWrapper(localName = "obtenerCelularResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerCelularResponse")
-    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/obtenerCelularRequest", output = "http://ws.monster.edu.ec/WSComercializadora/obtenerCelularResponse", fault = {
-        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/obtenerCelular/Fault/ExcepcionComercializadora")
-    })
-    public Celular obtenerCelular(
         @WebParam(name = "codCelular", targetNamespace = "")
         int codCelular)
         throws ExcepcionComercializadora_Exception
@@ -224,6 +239,46 @@ public interface WSComercializadora {
 
     /**
      * 
+     * @param codCelular
+     * @return
+     *     returns ec.edu.monster.proxy.Celular
+     * @throws ExcepcionComercializadora_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "obtenerCelular", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerCelular")
+    @ResponseWrapper(localName = "obtenerCelularResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerCelularResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/obtenerCelularRequest", output = "http://ws.monster.edu.ec/WSComercializadora/obtenerCelularResponse", fault = {
+        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/obtenerCelular/Fault/ExcepcionComercializadora")
+    })
+    public Celular obtenerCelular(
+        @WebParam(name = "codCelular", targetNamespace = "")
+        int codCelular)
+        throws ExcepcionComercializadora_Exception
+    ;
+
+    /**
+     * 
+     * @param numFactura
+     * @return
+     *     returns ec.edu.monster.proxy.Factura
+     * @throws ExcepcionComercializadora_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "obtenerFactura", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerFactura")
+    @ResponseWrapper(localName = "obtenerFacturaResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerFacturaResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaRequest", output = "http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaResponse", fault = {
+        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/obtenerFactura/Fault/ExcepcionComercializadora")
+    })
+    public Factura obtenerFactura(
+        @WebParam(name = "numFactura", targetNamespace = "")
+        int numFactura)
+        throws ExcepcionComercializadora_Exception
+    ;
+
+    /**
+     * 
      * @param soloActivos
      * @return
      *     returns java.util.List<ec.edu.monster.proxy.Celular>
@@ -239,6 +294,26 @@ public interface WSComercializadora {
     public List<Celular> listarCelulares(
         @WebParam(name = "soloActivos", targetNamespace = "")
         boolean soloActivos)
+        throws ExcepcionComercializadora_Exception
+    ;
+
+    /**
+     * 
+     * @param cedula
+     * @return
+     *     returns java.lang.String
+     * @throws ExcepcionComercializadora_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "buscarComprador", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.BuscarComprador")
+    @ResponseWrapper(localName = "buscarCompradorResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.BuscarCompradorResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSComercializadora/buscarCompradorRequest", output = "http://ws.monster.edu.ec/WSComercializadora/buscarCompradorResponse", fault = {
+        @FaultAction(className = ExcepcionComercializadora_Exception.class, value = "http://ws.monster.edu.ec/WSComercializadora/buscarComprador/Fault/ExcepcionComercializadora")
+    })
+    public String buscarComprador(
+        @WebParam(name = "cedula", targetNamespace = "")
+        String cedula)
         throws ExcepcionComercializadora_Exception
     ;
 

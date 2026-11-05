@@ -435,153 +435,28 @@ namespace ec.edu.monster.Modelo
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.monster.edu.ec/", ConfigurationName="ec.edu.monster.Modelo.WSComercializadora")]
-    public interface WSComercializadora
-    {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/facturarCreditoRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/facturarCreditoResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/facturarCredito/Fault/ExcepcionComerc" +
-            "ializadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarCreditoResponse> facturarCreditoAsync(ec.edu.monster.Modelo.facturarCreditoRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/listarCelularesRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/listarCelularesResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/listarCelulares/Fault/ExcepcionComerc" +
-            "ializadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.listarCelularesResponse> listarCelularesAsync(ec.edu.monster.Modelo.listarCelularesRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/obtenerCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/obtenerCelularResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/obtenerCelular/Fault/ExcepcionComerci" +
-            "alizadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerCelularResponse> obtenerCelularAsync(ec.edu.monster.Modelo.obtenerCelularRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/facturarEfectivoRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/facturarEfectivoResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/facturarEfectivo/Fault/ExcepcionComer" +
-            "cializadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarEfectivoResponse> facturarEfectivoAsync(ec.edu.monster.Modelo.facturarEfectivoRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/eliminarCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/eliminarCelularResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/eliminarCelular/Fault/ExcepcionComerc" +
-            "ializadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.eliminarCelularResponse> eliminarCelularAsync(ec.edu.monster.Modelo.eliminarCelularRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/actualizarCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/actualizarCelularResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/actualizarCelular/Fault/ExcepcionCome" +
-            "rcializadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.actualizarCelularResponse> actualizarCelularAsync(ec.edu.monster.Modelo.actualizarCelularRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/crearCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/crearCelularResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/crearCelular/Fault/ExcepcionComercial" +
-            "izadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.crearCelularResponse> crearCelularAsync(ec.edu.monster.Modelo.crearCelularRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/obtenerFactura/Fault/ExcepcionComerci" +
-            "alizadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerFacturaResponse> obtenerFacturaAsync(ec.edu.monster.Modelo.obtenerFacturaRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/consultarAmortizacionRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/consultarAmortizacionResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/consultarAmortizacion/Fault/Excepcion" +
-            "Comercializadora", Name="ExcepcionComercializadora")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.consultarAmortizacionResponse> consultarAmortizacionAsync(ec.edu.monster.Modelo.consultarAmortizacionRequest request);
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarCredito", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class facturarCreditoRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string cedula;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string nombre;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int codCelular;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=3)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int numeroCuotas;
-        
-        public facturarCreditoRequest()
-        {
-        }
-        
-        public facturarCreditoRequest(string cedula, string nombre, int codCelular, int numeroCuotas)
-        {
-            this.cedula = cedula;
-            this.nombre = nombre;
-            this.codCelular = codCelular;
-            this.numeroCuotas = numeroCuotas;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarCreditoResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class facturarCreditoResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ec.edu.monster.Modelo.factura @return;
-        
-        public facturarCreditoResponse()
-        {
-        }
-        
-        public facturarCreditoResponse(ec.edu.monster.Modelo.factura @return)
-        {
-            this.@return = @return;
-        }
-    }
-    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.monster.edu.ec/")]
-    public partial class celular
+    public partial class itemVenta
     {
         
-        private bool activoField;
+        private int cantidadField;
         
         private int codCelularField;
         
-        private string marcaField;
-        
-        private string modeloField;
-        
-        private decimal precioField;
-        
-        private bool precioFieldSpecified;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public bool activo
+        public int cantidad
         {
             get
             {
-                return this.activoField;
+                return this.cantidadField;
             }
             set
             {
-                this.activoField = value;
+                this.cantidadField = value;
             }
         }
         
@@ -598,153 +473,91 @@ namespace ec.edu.monster.Modelo
                 this.codCelularField = value;
             }
         }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string marca
-        {
-            get
-            {
-                return this.marcaField;
-            }
-            set
-            {
-                this.marcaField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string modelo
-        {
-            get
-            {
-                return this.modeloField;
-            }
-            set
-            {
-                this.modeloField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public decimal precio
-        {
-            get
-            {
-                return this.precioField;
-            }
-            set
-            {
-                this.precioField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool precioSpecified
-        {
-            get
-            {
-                return this.precioFieldSpecified;
-            }
-            set
-            {
-                this.precioFieldSpecified = value;
-            }
-        }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarCelulares", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class listarCelularesRequest
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.monster.edu.ec/", ConfigurationName="ec.edu.monster.Modelo.WSComercializadora")]
+    public interface WSComercializadora
     {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public bool soloActivos;
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/facturarVentaEfectivoRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/facturarVentaEfectivoResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/facturarVentaEfectivo/Fault/Excepcion" +
+            "Comercializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarVentaEfectivoResponse> facturarVentaEfectivoAsync(ec.edu.monster.Modelo.facturarVentaEfectivoRequest request);
         
-        public listarCelularesRequest()
-        {
-        }
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/facturarVentaCreditoRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/facturarVentaCreditoResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/facturarVentaCredito/Fault/ExcepcionC" +
+            "omercializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarVentaCreditoResponse> facturarVentaCreditoAsync(ec.edu.monster.Modelo.facturarVentaCreditoRequest request);
         
-        public listarCelularesRequest(bool soloActivos)
-        {
-            this.soloActivos = soloActivos;
-        }
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/consultarAmortizacionRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/consultarAmortizacionResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/consultarAmortizacion/Fault/Excepcion" +
+            "Comercializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.consultarAmortizacionResponse> consultarAmortizacionAsync(ec.edu.monster.Modelo.consultarAmortizacionRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/facturarEfectivoRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/facturarEfectivoResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/facturarEfectivo/Fault/ExcepcionComer" +
+            "cializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarEfectivoResponse> facturarEfectivoAsync(ec.edu.monster.Modelo.facturarEfectivoRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/facturarCreditoRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/facturarCreditoResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/facturarCredito/Fault/ExcepcionComerc" +
+            "ializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarCreditoResponse> facturarCreditoAsync(ec.edu.monster.Modelo.facturarCreditoRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/actualizarCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/actualizarCelularResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/actualizarCelular/Fault/ExcepcionCome" +
+            "rcializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.actualizarCelularResponse> actualizarCelularAsync(ec.edu.monster.Modelo.actualizarCelularRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/eliminarCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/eliminarCelularResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/eliminarCelular/Fault/ExcepcionComerc" +
+            "ializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.eliminarCelularResponse> eliminarCelularAsync(ec.edu.monster.Modelo.eliminarCelularRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/crearCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/crearCelularResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/crearCelular/Fault/ExcepcionComercial" +
+            "izadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.crearCelularResponse> crearCelularAsync(ec.edu.monster.Modelo.crearCelularRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/obtenerCelularRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/obtenerCelularResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/obtenerCelular/Fault/ExcepcionComerci" +
+            "alizadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerCelularResponse> obtenerCelularAsync(ec.edu.monster.Modelo.obtenerCelularRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/obtenerFacturaResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/obtenerFactura/Fault/ExcepcionComerci" +
+            "alizadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerFacturaResponse> obtenerFacturaAsync(ec.edu.monster.Modelo.obtenerFacturaRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/listarCelularesRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/listarCelularesResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/listarCelulares/Fault/ExcepcionComerc" +
+            "ializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.listarCelularesResponse> listarCelularesAsync(ec.edu.monster.Modelo.listarCelularesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.monster.edu.ec/WSComercializadora/buscarCompradorRequest", ReplyAction="http://ws.monster.edu.ec/WSComercializadora/buscarCompradorResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(ec.edu.monster.Modelo.ExcepcionComercializadora), Action="http://ws.monster.edu.ec/WSComercializadora/buscarComprador/Fault/ExcepcionComerc" +
+            "ializadora", Name="ExcepcionComercializadora")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.buscarCompradorResponse> buscarCompradorAsync(ec.edu.monster.Modelo.buscarCompradorRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarCelularesResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class listarCelularesResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ec.edu.monster.Modelo.celular[] @return;
-        
-        public listarCelularesResponse()
-        {
-        }
-        
-        public listarCelularesResponse(ec.edu.monster.Modelo.celular[] @return)
-        {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class obtenerCelularRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int codCelular;
-        
-        public obtenerCelularRequest()
-        {
-        }
-        
-        public obtenerCelularRequest(int codCelular)
-        {
-            this.codCelular = codCelular;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class obtenerCelularResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ec.edu.monster.Modelo.celular @return;
-        
-        public obtenerCelularResponse()
-        {
-        }
-        
-        public obtenerCelularResponse(ec.edu.monster.Modelo.celular @return)
-        {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarEfectivo", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class facturarEfectivoRequest
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarVentaEfectivo", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarVentaEfectivoRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
@@ -756,84 +569,37 @@ namespace ec.edu.monster.Modelo
         public string nombre;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int codCelular;
+        [System.Xml.Serialization.XmlElementAttribute("items", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.itemVenta[] items;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=3)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int cantidad;
-        
-        public facturarEfectivoRequest()
+        public facturarVentaEfectivoRequest()
         {
         }
         
-        public facturarEfectivoRequest(string cedula, string nombre, int codCelular, int cantidad)
+        public facturarVentaEfectivoRequest(string cedula, string nombre, ec.edu.monster.Modelo.itemVenta[] items)
         {
             this.cedula = cedula;
             this.nombre = nombre;
-            this.codCelular = codCelular;
-            this.cantidad = cantidad;
+            this.items = items;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarEfectivoResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class facturarEfectivoResponse
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarVentaEfectivoResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarVentaEfectivoResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public ec.edu.monster.Modelo.factura @return;
         
-        public facturarEfectivoResponse()
+        public facturarVentaEfectivoResponse()
         {
         }
         
-        public facturarEfectivoResponse(ec.edu.monster.Modelo.factura @return)
-        {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class eliminarCelularRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int codCelular;
-        
-        public eliminarCelularRequest()
-        {
-        }
-        
-        public eliminarCelularRequest(int codCelular)
-        {
-            this.codCelular = codCelular;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class eliminarCelularResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public bool @return;
-        
-        public eliminarCelularResponse()
-        {
-        }
-        
-        public eliminarCelularResponse(bool @return)
+        public facturarVentaEfectivoResponse(ec.edu.monster.Modelo.factura @return)
         {
             this.@return = @return;
         }
@@ -842,154 +608,55 @@ namespace ec.edu.monster.Modelo
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="actualizarCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class actualizarCelularRequest
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarVentaCredito", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarVentaCreditoRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int codCelular;
+        public string cedula;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string marca;
+        public string nombre;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string modelo;
+        [System.Xml.Serialization.XmlElementAttribute("items", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.itemVenta[] items;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=3)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public decimal precio;
+        public int numeroCuotas;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=4)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public bool activo;
-        
-        public actualizarCelularRequest()
+        public facturarVentaCreditoRequest()
         {
         }
         
-        public actualizarCelularRequest(int codCelular, string marca, string modelo, decimal precio, bool activo)
+        public facturarVentaCreditoRequest(string cedula, string nombre, ec.edu.monster.Modelo.itemVenta[] items, int numeroCuotas)
         {
-            this.codCelular = codCelular;
-            this.marca = marca;
-            this.modelo = modelo;
-            this.precio = precio;
-            this.activo = activo;
+            this.cedula = cedula;
+            this.nombre = nombre;
+            this.items = items;
+            this.numeroCuotas = numeroCuotas;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="actualizarCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class actualizarCelularResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ec.edu.monster.Modelo.celular @return;
-        
-        public actualizarCelularResponse()
-        {
-        }
-        
-        public actualizarCelularResponse(ec.edu.monster.Modelo.celular @return)
-        {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="crearCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class crearCelularRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string marca;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string modelo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public decimal precio;
-        
-        public crearCelularRequest()
-        {
-        }
-        
-        public crearCelularRequest(string marca, string modelo, decimal precio)
-        {
-            this.marca = marca;
-            this.modelo = modelo;
-            this.precio = precio;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="crearCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class crearCelularResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public ec.edu.monster.Modelo.celular @return;
-        
-        public crearCelularResponse()
-        {
-        }
-        
-        public crearCelularResponse(ec.edu.monster.Modelo.celular @return)
-        {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerFactura", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class obtenerFacturaRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int numFactura;
-        
-        public obtenerFacturaRequest()
-        {
-        }
-        
-        public obtenerFacturaRequest(int numFactura)
-        {
-            this.numFactura = numFactura;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerFacturaResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
-    public partial class obtenerFacturaResponse
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarVentaCreditoResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarVentaCreditoResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public ec.edu.monster.Modelo.factura @return;
         
-        public obtenerFacturaResponse()
+        public facturarVentaCreditoResponse()
         {
         }
         
-        public obtenerFacturaResponse(ec.edu.monster.Modelo.factura @return)
+        public facturarVentaCreditoResponse(ec.edu.monster.Modelo.factura @return)
         {
             this.@return = @return;
         }
@@ -1189,6 +856,548 @@ namespace ec.edu.monster.Modelo
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarEfectivo", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarEfectivoRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string cedula;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string nombre;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int codCelular;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int cantidad;
+        
+        public facturarEfectivoRequest()
+        {
+        }
+        
+        public facturarEfectivoRequest(string cedula, string nombre, int codCelular, int cantidad)
+        {
+            this.cedula = cedula;
+            this.nombre = nombre;
+            this.codCelular = codCelular;
+            this.cantidad = cantidad;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarEfectivoResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarEfectivoResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.factura @return;
+        
+        public facturarEfectivoResponse()
+        {
+        }
+        
+        public facturarEfectivoResponse(ec.edu.monster.Modelo.factura @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarCredito", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarCreditoRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string cedula;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string nombre;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int codCelular;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int numeroCuotas;
+        
+        public facturarCreditoRequest()
+        {
+        }
+        
+        public facturarCreditoRequest(string cedula, string nombre, int codCelular, int numeroCuotas)
+        {
+            this.cedula = cedula;
+            this.nombre = nombre;
+            this.codCelular = codCelular;
+            this.numeroCuotas = numeroCuotas;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="facturarCreditoResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class facturarCreditoResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.factura @return;
+        
+        public facturarCreditoResponse()
+        {
+        }
+        
+        public facturarCreditoResponse(ec.edu.monster.Modelo.factura @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://ws.monster.edu.ec/")]
+    public partial class celular
+    {
+        
+        private bool activoField;
+        
+        private int codCelularField;
+        
+        private string marcaField;
+        
+        private string modeloField;
+        
+        private decimal precioField;
+        
+        private bool precioFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public bool activo
+        {
+            get
+            {
+                return this.activoField;
+            }
+            set
+            {
+                this.activoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public int codCelular
+        {
+            get
+            {
+                return this.codCelularField;
+            }
+            set
+            {
+                this.codCelularField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string marca
+        {
+            get
+            {
+                return this.marcaField;
+            }
+            set
+            {
+                this.marcaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public string modelo
+        {
+            get
+            {
+                return this.modeloField;
+            }
+            set
+            {
+                this.modeloField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public decimal precio
+        {
+            get
+            {
+                return this.precioField;
+            }
+            set
+            {
+                this.precioField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool precioSpecified
+        {
+            get
+            {
+                return this.precioFieldSpecified;
+            }
+            set
+            {
+                this.precioFieldSpecified = value;
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="actualizarCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class actualizarCelularRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int codCelular;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string marca;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string modelo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public decimal precio;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public bool activo;
+        
+        public actualizarCelularRequest()
+        {
+        }
+        
+        public actualizarCelularRequest(int codCelular, string marca, string modelo, decimal precio, bool activo)
+        {
+            this.codCelular = codCelular;
+            this.marca = marca;
+            this.modelo = modelo;
+            this.precio = precio;
+            this.activo = activo;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="actualizarCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class actualizarCelularResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.celular @return;
+        
+        public actualizarCelularResponse()
+        {
+        }
+        
+        public actualizarCelularResponse(ec.edu.monster.Modelo.celular @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class eliminarCelularRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int codCelular;
+        
+        public eliminarCelularRequest()
+        {
+        }
+        
+        public eliminarCelularRequest(int codCelular)
+        {
+            this.codCelular = codCelular;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class eliminarCelularResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public bool @return;
+        
+        public eliminarCelularResponse()
+        {
+        }
+        
+        public eliminarCelularResponse(bool @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="crearCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class crearCelularRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string marca;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string modelo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public decimal precio;
+        
+        public crearCelularRequest()
+        {
+        }
+        
+        public crearCelularRequest(string marca, string modelo, decimal precio)
+        {
+            this.marca = marca;
+            this.modelo = modelo;
+            this.precio = precio;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="crearCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class crearCelularResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.celular @return;
+        
+        public crearCelularResponse()
+        {
+        }
+        
+        public crearCelularResponse(ec.edu.monster.Modelo.celular @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerCelular", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class obtenerCelularRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int codCelular;
+        
+        public obtenerCelularRequest()
+        {
+        }
+        
+        public obtenerCelularRequest(int codCelular)
+        {
+            this.codCelular = codCelular;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerCelularResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class obtenerCelularResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.celular @return;
+        
+        public obtenerCelularResponse()
+        {
+        }
+        
+        public obtenerCelularResponse(ec.edu.monster.Modelo.celular @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerFactura", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class obtenerFacturaRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int numFactura;
+        
+        public obtenerFacturaRequest()
+        {
+        }
+        
+        public obtenerFacturaRequest(int numFactura)
+        {
+            this.numFactura = numFactura;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerFacturaResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class obtenerFacturaResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.factura @return;
+        
+        public obtenerFacturaResponse()
+        {
+        }
+        
+        public obtenerFacturaResponse(ec.edu.monster.Modelo.factura @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarCelulares", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class listarCelularesRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public bool soloActivos;
+        
+        public listarCelularesRequest()
+        {
+        }
+        
+        public listarCelularesRequest(bool soloActivos)
+        {
+            this.soloActivos = soloActivos;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarCelularesResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class listarCelularesResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public ec.edu.monster.Modelo.celular[] @return;
+        
+        public listarCelularesResponse()
+        {
+        }
+        
+        public listarCelularesResponse(ec.edu.monster.Modelo.celular[] @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="buscarComprador", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class buscarCompradorRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string cedula;
+        
+        public buscarCompradorRequest()
+        {
+        }
+        
+        public buscarCompradorRequest(string cedula)
+        {
+            this.cedula = cedula;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="buscarCompradorResponse", WrapperNamespace="http://ws.monster.edu.ec/", IsWrapped=true)]
+    public partial class buscarCompradorResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://ws.monster.edu.ec/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string @return;
+        
+        public buscarCompradorResponse()
+        {
+        }
+        
+        public buscarCompradorResponse(string @return)
+        {
+            this.@return = @return;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "8.0.0")]
     public interface WSComercializadoraChannel : ec.edu.monster.Modelo.WSComercializadora, System.ServiceModel.IClientChannel
     {
@@ -1240,45 +1449,47 @@ namespace ec.edu.monster.Modelo
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarCreditoResponse> ec.edu.monster.Modelo.WSComercializadora.facturarCreditoAsync(ec.edu.monster.Modelo.facturarCreditoRequest request)
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarVentaEfectivoResponse> ec.edu.monster.Modelo.WSComercializadora.facturarVentaEfectivoAsync(ec.edu.monster.Modelo.facturarVentaEfectivoRequest request)
         {
-            return base.Channel.facturarCreditoAsync(request);
+            return base.Channel.facturarVentaEfectivoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarCreditoResponse> facturarCreditoAsync(string cedula, string nombre, int codCelular, int numeroCuotas)
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarVentaEfectivoResponse> facturarVentaEfectivoAsync(string cedula, string nombre, ec.edu.monster.Modelo.itemVenta[] items)
         {
-            ec.edu.monster.Modelo.facturarCreditoRequest inValue = new ec.edu.monster.Modelo.facturarCreditoRequest();
+            ec.edu.monster.Modelo.facturarVentaEfectivoRequest inValue = new ec.edu.monster.Modelo.facturarVentaEfectivoRequest();
             inValue.cedula = cedula;
             inValue.nombre = nombre;
-            inValue.codCelular = codCelular;
+            inValue.items = items;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).facturarVentaEfectivoAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarVentaCreditoResponse> ec.edu.monster.Modelo.WSComercializadora.facturarVentaCreditoAsync(ec.edu.monster.Modelo.facturarVentaCreditoRequest request)
+        {
+            return base.Channel.facturarVentaCreditoAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarVentaCreditoResponse> facturarVentaCreditoAsync(string cedula, string nombre, ec.edu.monster.Modelo.itemVenta[] items, int numeroCuotas)
+        {
+            ec.edu.monster.Modelo.facturarVentaCreditoRequest inValue = new ec.edu.monster.Modelo.facturarVentaCreditoRequest();
+            inValue.cedula = cedula;
+            inValue.nombre = nombre;
+            inValue.items = items;
             inValue.numeroCuotas = numeroCuotas;
-            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).facturarCreditoAsync(inValue);
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).facturarVentaCreditoAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.listarCelularesResponse> ec.edu.monster.Modelo.WSComercializadora.listarCelularesAsync(ec.edu.monster.Modelo.listarCelularesRequest request)
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.consultarAmortizacionResponse> ec.edu.monster.Modelo.WSComercializadora.consultarAmortizacionAsync(ec.edu.monster.Modelo.consultarAmortizacionRequest request)
         {
-            return base.Channel.listarCelularesAsync(request);
+            return base.Channel.consultarAmortizacionAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.listarCelularesResponse> listarCelularesAsync(bool soloActivos)
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.consultarAmortizacionResponse> consultarAmortizacionAsync(int numFactura)
         {
-            ec.edu.monster.Modelo.listarCelularesRequest inValue = new ec.edu.monster.Modelo.listarCelularesRequest();
-            inValue.soloActivos = soloActivos;
-            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).listarCelularesAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerCelularResponse> ec.edu.monster.Modelo.WSComercializadora.obtenerCelularAsync(ec.edu.monster.Modelo.obtenerCelularRequest request)
-        {
-            return base.Channel.obtenerCelularAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerCelularResponse> obtenerCelularAsync(int codCelular)
-        {
-            ec.edu.monster.Modelo.obtenerCelularRequest inValue = new ec.edu.monster.Modelo.obtenerCelularRequest();
-            inValue.codCelular = codCelular;
-            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).obtenerCelularAsync(inValue);
+            ec.edu.monster.Modelo.consultarAmortizacionRequest inValue = new ec.edu.monster.Modelo.consultarAmortizacionRequest();
+            inValue.numFactura = numFactura;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).consultarAmortizacionAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1298,16 +1509,19 @@ namespace ec.edu.monster.Modelo
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.eliminarCelularResponse> ec.edu.monster.Modelo.WSComercializadora.eliminarCelularAsync(ec.edu.monster.Modelo.eliminarCelularRequest request)
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarCreditoResponse> ec.edu.monster.Modelo.WSComercializadora.facturarCreditoAsync(ec.edu.monster.Modelo.facturarCreditoRequest request)
         {
-            return base.Channel.eliminarCelularAsync(request);
+            return base.Channel.facturarCreditoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.eliminarCelularResponse> eliminarCelularAsync(int codCelular)
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.facturarCreditoResponse> facturarCreditoAsync(string cedula, string nombre, int codCelular, int numeroCuotas)
         {
-            ec.edu.monster.Modelo.eliminarCelularRequest inValue = new ec.edu.monster.Modelo.eliminarCelularRequest();
+            ec.edu.monster.Modelo.facturarCreditoRequest inValue = new ec.edu.monster.Modelo.facturarCreditoRequest();
+            inValue.cedula = cedula;
+            inValue.nombre = nombre;
             inValue.codCelular = codCelular;
-            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).eliminarCelularAsync(inValue);
+            inValue.numeroCuotas = numeroCuotas;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).facturarCreditoAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1328,6 +1542,19 @@ namespace ec.edu.monster.Modelo
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.eliminarCelularResponse> ec.edu.monster.Modelo.WSComercializadora.eliminarCelularAsync(ec.edu.monster.Modelo.eliminarCelularRequest request)
+        {
+            return base.Channel.eliminarCelularAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.eliminarCelularResponse> eliminarCelularAsync(int codCelular)
+        {
+            ec.edu.monster.Modelo.eliminarCelularRequest inValue = new ec.edu.monster.Modelo.eliminarCelularRequest();
+            inValue.codCelular = codCelular;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).eliminarCelularAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         System.Threading.Tasks.Task<ec.edu.monster.Modelo.crearCelularResponse> ec.edu.monster.Modelo.WSComercializadora.crearCelularAsync(ec.edu.monster.Modelo.crearCelularRequest request)
         {
             return base.Channel.crearCelularAsync(request);
@@ -1340,6 +1567,19 @@ namespace ec.edu.monster.Modelo
             inValue.modelo = modelo;
             inValue.precio = precio;
             return ((ec.edu.monster.Modelo.WSComercializadora)(this)).crearCelularAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerCelularResponse> ec.edu.monster.Modelo.WSComercializadora.obtenerCelularAsync(ec.edu.monster.Modelo.obtenerCelularRequest request)
+        {
+            return base.Channel.obtenerCelularAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.obtenerCelularResponse> obtenerCelularAsync(int codCelular)
+        {
+            ec.edu.monster.Modelo.obtenerCelularRequest inValue = new ec.edu.monster.Modelo.obtenerCelularRequest();
+            inValue.codCelular = codCelular;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).obtenerCelularAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1356,16 +1596,29 @@ namespace ec.edu.monster.Modelo
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<ec.edu.monster.Modelo.consultarAmortizacionResponse> ec.edu.monster.Modelo.WSComercializadora.consultarAmortizacionAsync(ec.edu.monster.Modelo.consultarAmortizacionRequest request)
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.listarCelularesResponse> ec.edu.monster.Modelo.WSComercializadora.listarCelularesAsync(ec.edu.monster.Modelo.listarCelularesRequest request)
         {
-            return base.Channel.consultarAmortizacionAsync(request);
+            return base.Channel.listarCelularesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.consultarAmortizacionResponse> consultarAmortizacionAsync(int numFactura)
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.listarCelularesResponse> listarCelularesAsync(bool soloActivos)
         {
-            ec.edu.monster.Modelo.consultarAmortizacionRequest inValue = new ec.edu.monster.Modelo.consultarAmortizacionRequest();
-            inValue.numFactura = numFactura;
-            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).consultarAmortizacionAsync(inValue);
+            ec.edu.monster.Modelo.listarCelularesRequest inValue = new ec.edu.monster.Modelo.listarCelularesRequest();
+            inValue.soloActivos = soloActivos;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).listarCelularesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<ec.edu.monster.Modelo.buscarCompradorResponse> ec.edu.monster.Modelo.WSComercializadora.buscarCompradorAsync(ec.edu.monster.Modelo.buscarCompradorRequest request)
+        {
+            return base.Channel.buscarCompradorAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<ec.edu.monster.Modelo.buscarCompradorResponse> buscarCompradorAsync(string cedula)
+        {
+            ec.edu.monster.Modelo.buscarCompradorRequest inValue = new ec.edu.monster.Modelo.buscarCompradorRequest();
+            inValue.cedula = cedula;
+            return ((ec.edu.monster.Modelo.WSComercializadora)(this)).buscarCompradorAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
