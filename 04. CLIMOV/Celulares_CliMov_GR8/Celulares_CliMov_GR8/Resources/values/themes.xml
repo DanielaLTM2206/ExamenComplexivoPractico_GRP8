@@ -13,7 +13,6 @@
         <item name="android:textColorPrimary">@color/texto</item>
         <item name="materialButtonStyle">@style/Boton</item>
         <item name="textInputStyle">@style/Campo</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35" xmlns:tools="http://schemas.android.com/tools">true</item>
     </style>
 
     <style name="Boton" parent="Widget.MaterialComponents.Button">

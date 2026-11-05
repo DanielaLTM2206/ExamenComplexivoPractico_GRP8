@@ -219,6 +219,15 @@ input.invalido { border-color: var(--error); }
 .totales { max-width: 340px; margin-left: auto; }
 .totales .total { color: var(--azul); font-size: 1.2rem; font-weight: 700; }
 
+/* ---------- Página Servidor ---------- */
+.servidor-actual { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 12px 14px; background: #E8ECF5; border-radius: 10px; }
+.servidor-actual span:first-child { width: 100%; font-size: 0.8rem; color: var(--texto-suave); }
+.servidor-actual strong { color: var(--azul); word-break: break-all; }
+.resultado-conexion { margin: 0; padding: 12px 14px; border-radius: 10px; font-weight: 600; line-height: 1.45; }
+.resultado-conexion.ok { background: #E6F4EA; color: var(--exito); }
+.resultado-conexion.falla { background: #FDECEC; color: var(--error); }
+.boton:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* ---------- Diálogo propio ---------- */
 .dialogo-fondo {
     position: fixed;

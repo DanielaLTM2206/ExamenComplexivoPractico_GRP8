@@ -1,5 +1,6 @@
 package ec.edu.monster.servicio;
 
+import ec.edu.monster.util.ConfiguracionServidor;
 import ec.edu.monster.ws.Celular;
 import ec.edu.monster.ws.CuotaAmortizacion;
 import ec.edu.monster.ws.ExcepcionComercializadora;
@@ -7,15 +8,18 @@ import ec.edu.monster.ws.ExcepcionComercializadora_Exception;
 import ec.edu.monster.ws.Factura;
 import ec.edu.monster.ws.WSComercializadora;
 import ec.edu.monster.ws.WSComercializadora_Service;
+import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.WebServiceException;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-// Único punto del cliente web que invoca a WSComercializadora (WSDL en
-// http://localhost:8080/WS_Comercializadora_SOAP/WSComercializadora?wsdl)
+// Único punto del cliente web que invoca a WSComercializadora. La dirección sale de ConfiguracionServidor
+// (localhost por defecto, se cambia en la página "Servidor")
 public class ServicioComercializadora {
 
     private static final Logger LOG = Logger.getLogger(ServicioComercializadora.class.getName());
@@ -28,14 +32,22 @@ public class ServicioComercializadora {
         T ejecutar(WSComercializadora puerto) throws ExcepcionComercializadora_Exception;
     }
 
-    private static synchronized WSComercializadora puerto() {
-        if (servicio == null) {
-            servicio = new WSComercializadora_Service();
+    // Dirección con la que se creó el Service; si cambia en la página "Servidor" se vuelve a crear
+    private static String urlServicio;
+
+    private static synchronized WSComercializadora puerto() throws MalformedURLException {
+        String url = ConfiguracionServidor.getUrlActual();
+        if (servicio == null || !url.equals(urlServicio)) {
+            servicio = new WSComercializadora_Service(URI.create(url + "?wsdl").toURL());
+            urlServicio = url;
         }
-        return servicio.getWSComercializadoraPort();
+        WSComercializadora puerto = servicio.getWSComercializadoraPort();
+        // El WSDL publica la dirección con el nombre del equipo servidor: se fuerza la que escribió el usuario
+        ((BindingProvider) puerto).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
+        return puerto;
     }
 
-    private static synchronized void reiniciar() {
+    public static synchronized void reiniciar() {
         servicio = null;
     }
 
@@ -45,11 +57,12 @@ public class ServicioComercializadora {
         } catch (ExcepcionComercializadora_Exception e) {
             ExcepcionComercializadora falla = e.getFaultInfo();
             throw new ExcepcionCliente(falla.getCodigo(), falla.getMessage());
-        } catch (WebServiceException e) {
+        } catch (WebServiceException | MalformedURLException e) {
             LOG.log(Level.SEVERE, "No se pudo comunicar con WSComercializadora", e);
             reiniciar();
             throw new ExcepcionCliente("BDD-001",
-                "BDD-001: No fue posible conectar con la comercializadora. Verifique que el servidor esté encendido e intente nuevamente.");
+                "BDD-001: No fue posible conectar con la comercializadora en " + ConfiguracionServidor.getUrlActual()
+                + ". Verifique que el servidor esté encendido o corrija la dirección en la página Servidor.");
         }
     }
 

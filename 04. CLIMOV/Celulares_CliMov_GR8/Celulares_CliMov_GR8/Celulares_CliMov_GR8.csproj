@@ -22,8 +22,8 @@
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.14.0.6" />
   </ItemGroup>
   <ItemGroup>
-    <TrimmerRootAssembly Include="System.ServiceModel.Primitives" />
-    <TrimmerRootAssembly Include="System.ServiceModel.Http" />
+    <TrimmerRootAssembly Include="System.ServiceModel.Primitives" RootMode="All" />
+    <TrimmerRootAssembly Include="System.ServiceModel.Http" RootMode="All" />
     <None Remove="Modelo\dotnet-svcutil.params.json" />
   </ItemGroup>
 </Project>
