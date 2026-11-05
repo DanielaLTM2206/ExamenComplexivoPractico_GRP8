@@ -5,6 +5,10 @@ import ec.edu.monster.proxy.CuotaAmortizacion;
 import ec.edu.monster.proxy.Factura;
 import ec.edu.monster.proxy.WSComercializadora;
 import ec.edu.monster.proxy.WSComercializadora_Service;
+import ec.edu.monster.servicio.ProbadorConexion;
+import ec.edu.monster.util.ConfiguracionServidor;
+import ec.edu.monster.util.DireccionServidor;
+import jakarta.xml.ws.BindingProvider;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -38,6 +42,9 @@ import java.util.Map;
 public class Celulares_CliEsc_GR8 extends JFrame {
 
     private WSComercializadora servicio;
+
+    // Barra de estado: refleja la conexión real con el servidor configurado
+    private JLabel lblStatus;
 
     // Paleta de Colores Institucional (Idéntica a la Aplicación Web)
     public static final Color COLOR_AZUL = new Color(15, 38, 92);         // #0F265C Azul marino principal
@@ -137,21 +144,176 @@ public class Celulares_CliEsc_GR8 extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(COLOR_FONDO);
 
-        conectarServicioSOAP();
         construirInterfaz();
-        cargarCatalogo();
+        // La conexión se intenta con la ventana ya visible: si falla, se ofrece "Configurar servidor"
+        SwingUtilities.invokeLater(() -> {
+            if (conectarServicioSOAP()) {
+                cargarCatalogo();
+                actualizarComboCelulares();
+            } else {
+                mostrarDialogoModal(this, "Error de Conexión SOAP",
+                        "No se pudo conectar al servicio web SOAP de la Comercializadora en:\n"
+                        + ConfiguracionServidor.getUrlActual()
+                        + "\n\nSi Payara corre en otra computadora, escriba su IP en la siguiente ventana "
+                        + "(la muestra PREPARAR_SERVIDOR_SOAP_8080.bat).", TIPO_ERROR);
+                abrirDialogoServidor();
+            }
+        });
     }
 
-    private void conectarServicioSOAP() {
+    // Crea el proxy con la dirección configurada; devuelve false si el servidor no responde
+    private boolean conectarServicioSOAP() {
+        String url = ConfiguracionServidor.getUrlActual();
         try {
-            URL wsdlUrl = new URL("http://localhost:8080/WS_Comercializadora_SOAP/WSComercializadora?wsdl");
-            WSComercializadora_Service factory = new WSComercializadora_Service(wsdlUrl);
-            servicio = factory.getWSComercializadoraPort();
+            WSComercializadora_Service factory = new WSComercializadora_Service(new URL(url + "?wsdl"));
+            WSComercializadora puerto = factory.getWSComercializadoraPort();
+            // El WSDL publica la dirección con el nombre del equipo servidor: se fuerza la configurada
+            ((BindingProvider) puerto).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
+            servicio = puerto;
+            actualizarBarraEstado(true, url);
+            return true;
         } catch (Exception e) {
-            mostrarDialogoModal(this, "Error de Conexión SOAP",
-                    "No se pudo conectar al servicio web SOAP de la Comercializadora:\n" + e.getMessage() +
-                    "\nAsegúrese de que Payara Server 7 esté iniciado en el puerto 8080.", TIPO_ERROR);
+            servicio = null;
+            actualizarBarraEstado(false, url);
+            return false;
         }
+    }
+
+    private void actualizarBarraEstado(boolean conectado, String url) {
+        if (lblStatus == null) return;
+        // Solo IP y puerto, para que no se monte sobre el texto del grupo; la dirección completa queda en el tooltip
+        String servidor = url;
+        try {
+            java.net.URI uri = java.net.URI.create(url);
+            servidor = uri.getHost() + ":" + (uri.getPort() == -1 ? 80 : uri.getPort());
+        } catch (IllegalArgumentException ignored) {
+        }
+        lblStatus.setText((conectado ? "● Servicio SOAP: Conectado a " : "● Servicio SOAP: Sin conexión con ")
+                + servidor + " (" + ConfiguracionServidor.getOrigen() + ")");
+        lblStatus.setToolTipText(url);
+        lblStatus.setForeground(conectado ? COLOR_EXITO : COLOR_ERROR);
+    }
+
+    // "Configurar servidor": la IP de la PC con Payara se escribe aquí, se prueba y se guarda en la carpeta del usuario
+    private void abrirDialogoServidor() {
+        JDialog dialog = new JDialog(this, "Configurar servidor", Dialog.ModalityType.APPLICATION_MODAL);
+        dialog.setUndecorated(true);
+
+        JPanel content = new JPanel(new BorderLayout());
+        content.setBackground(COLOR_BLANCO);
+        content.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(COLOR_BORDE, 1),
+                BorderFactory.createMatteBorder(5, 0, 0, 0, COLOR_AMARILLO)));
+
+        JPanel body = new JPanel();
+        body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
+        body.setOpaque(false);
+        body.setBorder(new EmptyBorder(20, 24, 12, 24));
+
+        JLabel lblTit = new JLabel("Configurar servidor");
+        lblTit.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTit.setForeground(COLOR_AZUL);
+
+        JLabel lblAyuda = new JLabel("<html><body style='width: 400px; font-family: Segoe UI; font-size: 11px;'>"
+                + "Escriba la IP de la computadora donde corre Payara (por ejemplo 192.168.1.25). Ambas computadoras "
+                + "deben estar en la misma red. Se completa con :8080 y la ruta del servicio.<br><br>"
+                + "Servidor actual: <b>" + ConfiguracionServidor.getUrlActual() + "</b></body></html>");
+        lblAyuda.setForeground(COLOR_TEXTO);
+
+        JTextField txtServidor = crearCampoTextoFormulario(ConfiguracionServidor.getUrlActual());
+        txtServidor.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+
+        JLabel lblResultado = new JLabel(" ");
+        lblResultado.setFont(new Font("Segoe UI", Font.BOLD, 11));
+
+        for (JComponent c : new JComponent[]{lblTit, lblAyuda, txtServidor, lblResultado}) {
+            c.setAlignmentX(Component.LEFT_ALIGNMENT);
+        }
+        body.add(lblTit);
+        body.add(Box.createVerticalStrut(8));
+        body.add(lblAyuda);
+        body.add(Box.createVerticalStrut(12));
+        body.add(txtServidor);
+        body.add(Box.createVerticalStrut(10));
+        body.add(lblResultado);
+
+        if (ConfiguracionServidor.usaVariableEntorno()) {
+            JLabel lblVariable = new JLabel("<html><body style='width: 400px; font-family: Segoe UI; font-size: 10px;'>"
+                    + "Aviso: la variable de entorno " + ConfiguracionServidor.VARIABLE_ENTORNO
+                    + " tiene prioridad sobre lo que se guarde aquí.</body></html>");
+            lblVariable.setForeground(new Color(180, 83, 9));
+            lblVariable.setAlignmentX(Component.LEFT_ALIGNMENT);
+            body.add(lblVariable);
+        }
+
+        ProbadorConexion probador = new ProbadorConexion();
+        // Completa la dirección escrita, la prueba y muestra el resultado; devuelve la URL o null si no es válida
+        java.util.function.Function<Boolean, String> probar = soloValidar -> {
+            String url;
+            try {
+                url = DireccionServidor.completar(txtServidor.getText());
+            } catch (IllegalArgumentException ex) {
+                lblResultado.setForeground(COLOR_ERROR);
+                lblResultado.setText("<html><body style='width: 400px'>" + ex.getMessage() + "</body></html>");
+                return null;
+            }
+            txtServidor.setText(url);
+            ProbadorConexion.Resultado r = probador.probar(url);
+            lblResultado.setForeground(r.exitosa() ? COLOR_EXITO : COLOR_ERROR);
+            lblResultado.setText("<html><body style='width: 400px'>" + (r.exitosa() ? "✓ " : "✗ ") + r.mensaje() + "</body></html>");
+            dialog.pack();
+            return r.exitosa() || soloValidar ? url : null;
+        };
+
+        JButton btnCancelar = crearBoton("Cancelar", COLOR_BLANCO, COLOR_TEXTO, COLOR_BORDE);
+        btnCancelar.setPreferredSize(new Dimension(100, 36));
+        btnCancelar.addActionListener(e -> dialog.dispose());
+
+        JButton btnProbar = crearBoton("Probar conexión", COLOR_BLANCO, COLOR_AZUL, COLOR_AZUL);
+        btnProbar.setPreferredSize(new Dimension(140, 36));
+        btnProbar.addActionListener(e -> probar.apply(false));
+
+        JButton btnGuardar = crearBoton("Guardar", COLOR_AMARILLO, COLOR_AZUL, COLOR_AMARILLO_OSC);
+        btnGuardar.setPreferredSize(new Dimension(110, 36));
+        btnGuardar.addActionListener(e -> {
+            String url = probar.apply(true);
+            if (url == null) return;
+            if (!lblResultado.getText().contains("✓") && !mostrarDialogoConfirmacion(dialog, "Servidor sin respuesta",
+                    "El servidor no respondió. ¿Desea guardar esta dirección de todas formas?")) {
+                return;
+            }
+            try {
+                ConfiguracionServidor.guardar(url);
+            } catch (java.io.IOException ex) {
+                mostrarDialogoModal(dialog, "No se pudo guardar", ex.getMessage(), TIPO_ERROR);
+                return;
+            }
+            dialog.dispose();
+            if (conectarServicioSOAP()) {
+                cargarCatalogo();
+                actualizarComboCelulares();
+                mostrarDialogoModal(this, "Servidor guardado", "El cliente usará el servidor:\n" + url, TIPO_EXITO);
+            } else {
+                mostrarDialogoModal(this, "Servidor guardado sin conexión",
+                        "Se guardó " + url + ", pero el servidor no responde todavía.", TIPO_AVISO);
+            }
+        });
+
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 12));
+        actions.setOpaque(false);
+        actions.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(240, 242, 246)));
+        actions.add(btnCancelar);
+        actions.add(btnProbar);
+        actions.add(btnGuardar);
+
+        content.add(body, BorderLayout.CENTER);
+        content.add(actions, BorderLayout.SOUTH);
+        dialog.setContentPane(content);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        txtServidor.requestFocusInWindow();
+        txtServidor.selectAll();
+        dialog.setVisible(true);
     }
 
     private void construirInterfaz() {
@@ -232,16 +394,26 @@ public class Celulares_CliEsc_GR8 extends JFrame {
                 new EmptyBorder(8, 18, 8, 18)
         ));
 
-        JLabel lblStatus = new JLabel("● Servicio SOAP: Conectado (http://localhost:8080/WS_Comercializadora_SOAP/WSComercializadora)");
+        lblStatus = new JLabel("● Servicio SOAP: Conectando…");
         lblStatus.setFont(new Font("Segoe UI", Font.BOLD, 11));
-        lblStatus.setForeground(COLOR_EXITO);
+        lblStatus.setForeground(COLOR_TEXTO_SUAVE);
 
         JLabel lblGrupo = new JLabel("ESPE - Arquitectura de Software  |  NRC 36883 - Grupo 08");
         lblGrupo.setFont(new Font("Segoe UI", Font.BOLD, 11));
         lblGrupo.setForeground(COLOR_AZUL);
 
+        JButton btnServidor = crearBoton("Configurar servidor", COLOR_BLANCO, COLOR_AZUL, COLOR_AZUL);
+        btnServidor.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnServidor.setBorder(new EmptyBorder(4, 12, 4, 12));
+        btnServidor.addActionListener(e -> abrirDialogoServidor());
+
+        JPanel pnlDerecha = new JPanel(new FlowLayout(FlowLayout.RIGHT, 14, 0));
+        pnlDerecha.setOpaque(false);
+        pnlDerecha.add(lblGrupo);
+        pnlDerecha.add(btnServidor);
+
         pnlStatus.add(lblStatus, BorderLayout.WEST);
-        pnlStatus.add(lblGrupo, BorderLayout.EAST);
+        pnlStatus.add(pnlDerecha, BorderLayout.EAST);
         add(pnlStatus, BorderLayout.SOUTH);
     }
 
