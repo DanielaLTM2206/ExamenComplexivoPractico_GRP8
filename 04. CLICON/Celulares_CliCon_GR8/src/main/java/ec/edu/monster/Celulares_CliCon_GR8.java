@@ -6,15 +6,32 @@ import ec.edu.monster.proxy.Factura;
 import ec.edu.monster.proxy.WSComercializadora;
 import ec.edu.monster.proxy.WSComercializadora_Service;
 
+import java.io.FileOutputStream;
+import java.io.FileDescriptor;
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 
 public class Celulares_CliCon_GR8 {
 
+    // Tildes y ñ: la ventana Output de NetBeans lee en UTF-8, pero sin una consola real Java escribe en la
+    // codificación de Windows (Cp1252) y aparecían "◆?". En una consola real (cmd) se respeta su codificación.
+    private static final Charset CODIFICACION = System.console() == null
+            ? StandardCharsets.UTF_8 : System.console().charset();
+
+    static {
+        if (System.console() == null) {
+            System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, StandardCharsets.UTF_8));
+            System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.err), true, StandardCharsets.UTF_8));
+        }
+    }
+
     private static WSComercializadora servicio;
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in, CODIFICACION);
 
     public static void main(String[] args) {
         System.out.println("========================================================================");
