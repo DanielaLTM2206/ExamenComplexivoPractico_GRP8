@@ -20,6 +20,7 @@
         <a href="${pageContext.request.contextPath}/facturar" class="${seccion == 'facturar' ? 'activo' : ''}">Facturar</a>
         <a href="${pageContext.request.contextPath}/factura" class="${seccion == 'factura' ? 'activo' : ''}">Facturas</a>
         <a href="${pageContext.request.contextPath}/amortizacion" class="${seccion == 'amortizacion' ? 'activo' : ''}">Amortización</a>
+        <a href="${pageContext.request.contextPath}/servidor" class="${seccion == 'servidor' ? 'activo' : ''}">Servidor</a>
     </nav>
 </header>
 <main class="contenido">

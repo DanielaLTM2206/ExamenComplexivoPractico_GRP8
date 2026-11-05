@@ -16,6 +16,7 @@ public class ExcepcionCliente : Exception
         _ when Codigo.StartsWith("VAL") => "Datos no válidos",
         _ when Codigo.StartsWith("CLI") => "Cliente no encontrado",
         _ when Codigo.StartsWith("CRE") => "Crédito no aprobado",
+        _ when Codigo.StartsWith("SRV") => "Servidor sin configurar",
         _ => "Error del sistema"
     };
 }

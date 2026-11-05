@@ -9,6 +9,7 @@ public abstract class ActividadBase : AppCompatActivity
     protected void ConfigurarPantalla(int layout, string titulo)
     {
         SetContentView(layout);
+        BordesSistema.Ajustar(this);
         Title = titulo;
         SupportActionBar?.SetDisplayHomeAsUpEnabled(true);
     }

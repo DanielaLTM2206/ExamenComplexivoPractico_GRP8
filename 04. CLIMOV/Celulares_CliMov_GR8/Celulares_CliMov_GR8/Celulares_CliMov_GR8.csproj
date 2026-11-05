@@ -15,6 +15,9 @@
     <TrimMode>partial</TrimMode>
     <!-- CS8981: el proxy generado por svcutil usa los nombres en minúscula del WSDL (celular, factura) -->
     <NoWarn>$(NoWarn);CS8981</NoWarn>
+    <!-- Archivos intermedios fuera de OneDrive y en una ruta corta: las clases Java que genera AndroidX superaban los
+         260 caracteres que admite Visual Studio (error XAJCW7023) y OneDrive bloqueaba las carpetas de obj -->
+    <IntermediateOutputPath>$(LOCALAPPDATA)\CelularesGR8\obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Http" Version="10.1.0" />
@@ -22,8 +25,8 @@
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.14.0.6" />
   </ItemGroup>
   <ItemGroup>
-    <TrimmerRootAssembly Include="System.ServiceModel.Primitives" />
-    <TrimmerRootAssembly Include="System.ServiceModel.Http" />
+    <TrimmerRootAssembly Include="System.ServiceModel.Primitives" RootMode="All" />
+    <TrimmerRootAssembly Include="System.ServiceModel.Http" RootMode="All" />
     <None Remove="Modelo\dotnet-svcutil.params.json" />
   </ItemGroup>
 </Project>

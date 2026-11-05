@@ -1,13 +1,18 @@
 using System.ServiceModel;
 using ec.edu.monster.Modelo;
+using ec.edu.monster.Util;
 
 namespace ec.edu.monster.Servicio;
 
 // Único punto de la app móvil que invoca a WSComercializadora (proxy WCF generado en Modelo/)
 public class ServicioComercializadora
 {
+    private const string SinServidor =
+        "Aún no se ha configurado el servidor. En la portada toque \"Cambiar servidor\" y escriba la IP de la PC donde corre Payara.";
+
     private static WSComercializadoraClient CrearCliente()
     {
+        string url = ConfiguracionServidor.UrlActual ?? throw new ExcepcionCliente("SRV-000", SinServidor);
         var binding = new BasicHttpBinding
         {
             MaxReceivedMessageSize = int.MaxValue,
@@ -15,7 +20,7 @@ public class ServicioComercializadora
             SendTimeout = Configuracion.TiempoEspera,
             ReceiveTimeout = Configuracion.TiempoEspera
         };
-        return new WSComercializadoraClient(binding, new EndpointAddress(Configuracion.UrlServicio));
+        return new WSComercializadoraClient(binding, new EndpointAddress(url));
     }
 
     // Abre un cliente por llamada y traduce las fallas del servicio a ExcepcionCliente
@@ -38,7 +43,8 @@ public class ServicioComercializadora
             cliente.Abort();
             Android.Util.Log.Error("ServicioComercializadora", e.ToString());
             throw new ExcepcionCliente("BDD-001",
-                "BDD-001: No fue posible conectar con la comercializadora. Verifique que el servidor esté encendido e intente nuevamente.");
+                "BDD-001: No fue posible conectar con la comercializadora en " + ConfiguracionServidor.UrlActual +
+                ". Verifique que el servidor esté encendido o corrija la dirección con \"Cambiar servidor\" en la portada.");
         }
     }
 
