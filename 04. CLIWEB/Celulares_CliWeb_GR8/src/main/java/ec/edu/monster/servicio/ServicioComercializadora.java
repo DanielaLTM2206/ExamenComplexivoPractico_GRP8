@@ -6,6 +6,7 @@ import ec.edu.monster.ws.CuotaAmortizacion;
 import ec.edu.monster.ws.ExcepcionComercializadora;
 import ec.edu.monster.ws.ExcepcionComercializadora_Exception;
 import ec.edu.monster.ws.Factura;
+import ec.edu.monster.ws.ItemVenta;
 import ec.edu.monster.ws.WSComercializadora;
 import ec.edu.monster.ws.WSComercializadora_Service;
 import jakarta.xml.ws.BindingProvider;
@@ -84,6 +85,19 @@ public class ServicioComercializadora {
 
     public boolean eliminarCelular(int codCelular) throws ExcepcionCliente {
         return invocar(p -> p.eliminarCelular(codCelular));
+    }
+
+    /** Nombre del comprador según BanQuito, o null si no es cliente del banco. */
+    public String buscarComprador(String cedula) throws ExcepcionCliente {
+        return invocar(p -> p.buscarComprador(cedula == null ? "" : cedula.trim()));
+    }
+
+    public Factura facturarVentaEfectivo(String cedula, String nombre, List<ItemVenta> items) throws ExcepcionCliente {
+        return invocar(p -> p.facturarVentaEfectivo(cedula, nombre, items));
+    }
+
+    public Factura facturarVentaCredito(String cedula, String nombre, List<ItemVenta> items, int numeroCuotas) throws ExcepcionCliente {
+        return invocar(p -> p.facturarVentaCredito(cedula, nombre, items, numeroCuotas));
     }
 
     public Factura facturarEfectivo(String cedula, String nombre, int codCelular, int cantidad) throws ExcepcionCliente {

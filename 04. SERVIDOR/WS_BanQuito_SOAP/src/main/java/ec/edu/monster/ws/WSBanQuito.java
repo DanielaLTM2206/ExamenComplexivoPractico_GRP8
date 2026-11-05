@@ -21,6 +21,12 @@ public class WSBanQuito {
         return servicio.verificarSujeto(cedula);
     }
 
+    // Nombre del cliente del banco para autocompletar la factura; null si la cédula no es válida o no es cliente
+    @WebMethod(operationName = "consultarNombreCliente")
+    public String consultarNombreCliente(@WebParam(name = "cedula") String cedula) {
+        return servicio.consultarNombre(cedula);
+    }
+
     @WebMethod(operationName = "obtenerMontoMaximo")
     public BigDecimal obtenerMontoMaximo(@WebParam(name = "codCliente") int codCliente) {
         return servicio.calcularMontoMaximo(codCliente);

@@ -16,24 +16,40 @@
         <div class="campo">
             <label for="cedula">Cédula del comprador</label>
             <input type="text" id="cedula" name="cedula" maxlength="10" inputmode="numeric" required
-                   data-validar="cedula" data-nombre="cédula" value="${fn:escapeXml(param.cedula)}" placeholder="10 dígitos">
+                   data-validar="cedula" data-nombre="cédula" value="${fn:escapeXml(param.cedula)}" placeholder="10 dígitos" autocomplete="off"
+                   data-buscar="${pageContext.request.contextPath}/comprador">
+            <small id="ayuda-cedula" class="nota ayuda-cedula" aria-live="polite"></small>
         </div>
         <div class="campo">
             <label for="nombre">Nombre del comprador</label>
             <input type="text" id="nombre" name="nombre" maxlength="100" required data-nombre="nombre"
-                   value="${fn:escapeXml(param.nombre)}" placeholder="Nombres y apellidos">
+                   value="${fn:escapeXml(param.nombre)}" placeholder="Nombres y apellidos" autocomplete="off">
         </div>
+        <%-- Carrito: el selector y la cantidad no se envían; cada fila agregada envía itemCelular / itemCantidad --%>
         <div class="campo">
-            <label for="codCelular">Celular</label>
-            <select id="codCelular" name="codCelular" required data-nombre="celular">
-                <option value="">Seleccione un celular…</option>
-                <c:forEach var="cel" items="${celulares}">
-                    <option value="${cel.codCelular}" data-precio="${cel.precio}" ${param.codCelular == cel.codCelular ? 'selected' : ''}>
-                        <c:out value="${cel.marca} ${cel.modelo}" /> — <fmt:formatNumber value="${cel.precio}" type="currency" currencySymbol="$" />
-                    </option>
-                </c:forEach>
-            </select>
+            <label for="codCelular">Celulares de la venta</label>
+            <div class="agregar-item">
+                <select id="codCelular" data-nombre="celular">
+                    <option value="">Seleccione un celular…</option>
+                    <c:forEach var="cel" items="${celulares}">
+                        <option value="${cel.codCelular}" data-precio="${cel.precio}" data-texto="${fn:escapeXml(cel.marca.concat(' ').concat(cel.modelo))}">
+                            <c:out value="${cel.marca} ${cel.modelo}" /> — <fmt:formatNumber value="${cel.precio}" type="currency" currencySymbol="$" />
+                        </option>
+                    </c:forEach>
+                </select>
+                <input type="text" id="cantidad" inputmode="numeric" maxlength="2" value="1" aria-label="Cantidad"
+                       data-validar="entero" data-min="1" data-max="99" data-nombre="cantidad">
+                <button type="button" id="btn-agregar" class="boton">Agregar</button>
+            </div>
         </div>
+
+        <table class="tabla carrito" id="carrito" data-carrito="${fn:escapeXml(carrito)}">
+            <thead>
+            <tr><th>Celular</th><th class="num">Precio</th><th class="num">Cantidad</th><th class="num">Subtotal</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p class="vacio" id="carrito-vacio">Aún no hay celulares en la venta: elija uno y pulse <strong>Agregar</strong>.</p>
 
         <fieldset class="campo">
             <legend>Forma de pago</legend>
@@ -49,12 +65,6 @@
             </div>
         </fieldset>
 
-        <div class="campo" id="campo-cantidad">
-            <label for="cantidad">Cantidad</label>
-            <input type="text" id="cantidad" name="cantidad" inputmode="numeric" maxlength="2"
-                   data-validar="entero" data-min="1" data-max="99" data-nombre="cantidad"
-                   value="${empty param.cantidad ? '1' : fn:escapeXml(param.cantidad)}">
-        </div>
         <div class="campo" id="campo-cuotas">
             <label for="numeroCuotas">Plazo (meses)</label>
             <select id="numeroCuotas" name="numeroCuotas">
@@ -68,13 +78,13 @@
     <aside class="tarjeta resumen">
         <h2>Resumen</h2>
         <dl>
-            <dt>Precio unitario</dt><dd id="r-precio">—</dd>
+            <dt>Unidades</dt><dd id="r-unidades">0</dd>
             <dt id="r-etq-subtotal">Subtotal</dt><dd id="r-subtotal">—</dd>
             <dt id="r-etq-descuento">Descuento (42 %)</dt><dd id="r-descuento">—</dd>
             <dt id="r-etq-cuota" hidden>Cuota estimada</dt><dd id="r-cuota" hidden>—</dd>
         </dl>
         <div class="total"><span id="r-etq-total">Total a pagar</span><strong id="r-total">—</strong></div>
-        <p class="nota" id="r-nota">El valor final de la cuota lo calcula BanQuito al aprobar el crédito.</p>
+        <p class="nota" id="r-nota">El crédito cubre el total de la venta; el valor final de la cuota lo calcula BanQuito al aprobarlo.</p>
         <button type="submit" class="boton boton-bloque">Emitir factura</button>
     </aside>
 </form>

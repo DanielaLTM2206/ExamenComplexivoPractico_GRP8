@@ -27,6 +27,21 @@ public interface WSBanQuito {
 
     /**
      * 
+     * @param cedula
+     * @return
+     *     returns ec.edu.monster.proxy.RespuestaSujetoCredito
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "verificarSujetoCredito", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.VerificarSujetoCredito")
+    @ResponseWrapper(localName = "verificarSujetoCreditoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.VerificarSujetoCreditoResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSBanQuito/verificarSujetoCreditoRequest", output = "http://ws.monster.edu.ec/WSBanQuito/verificarSujetoCreditoResponse")
+    public RespuestaSujetoCredito verificarSujetoCredito(
+        @WebParam(name = "cedula", targetNamespace = "")
+        String cedula);
+
+    /**
+     * 
      * @param codCredito
      * @return
      *     returns java.util.List<ec.edu.monster.proxy.CuotaAmortizacion>
@@ -42,18 +57,18 @@ public interface WSBanQuito {
 
     /**
      * 
-     * @param cedula
+     * @param codCliente
      * @return
-     *     returns ec.edu.monster.proxy.RespuestaSujetoCredito
+     *     returns java.math.BigDecimal
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "verificarSujetoCredito", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.VerificarSujetoCredito")
-    @ResponseWrapper(localName = "verificarSujetoCreditoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.VerificarSujetoCreditoResponse")
-    @Action(input = "http://ws.monster.edu.ec/WSBanQuito/verificarSujetoCreditoRequest", output = "http://ws.monster.edu.ec/WSBanQuito/verificarSujetoCreditoResponse")
-    public RespuestaSujetoCredito verificarSujetoCredito(
-        @WebParam(name = "cedula", targetNamespace = "")
-        String cedula);
+    @RequestWrapper(localName = "obtenerMontoMaximo", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerMontoMaximo")
+    @ResponseWrapper(localName = "obtenerMontoMaximoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerMontoMaximoResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSBanQuito/obtenerMontoMaximoRequest", output = "http://ws.monster.edu.ec/WSBanQuito/obtenerMontoMaximoResponse")
+    public BigDecimal obtenerMontoMaximo(
+        @WebParam(name = "codCliente", targetNamespace = "")
+        int codCliente);
 
     /**
      * 
@@ -78,17 +93,17 @@ public interface WSBanQuito {
 
     /**
      * 
-     * @param codCliente
+     * @param cedula
      * @return
-     *     returns java.math.BigDecimal
+     *     returns java.lang.String
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "obtenerMontoMaximo", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerMontoMaximo")
-    @ResponseWrapper(localName = "obtenerMontoMaximoResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ObtenerMontoMaximoResponse")
-    @Action(input = "http://ws.monster.edu.ec/WSBanQuito/obtenerMontoMaximoRequest", output = "http://ws.monster.edu.ec/WSBanQuito/obtenerMontoMaximoResponse")
-    public BigDecimal obtenerMontoMaximo(
-        @WebParam(name = "codCliente", targetNamespace = "")
-        int codCliente);
+    @RequestWrapper(localName = "consultarNombreCliente", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ConsultarNombreCliente")
+    @ResponseWrapper(localName = "consultarNombreClienteResponse", targetNamespace = "http://ws.monster.edu.ec/", className = "ec.edu.monster.proxy.ConsultarNombreClienteResponse")
+    @Action(input = "http://ws.monster.edu.ec/WSBanQuito/consultarNombreClienteRequest", output = "http://ws.monster.edu.ec/WSBanQuito/consultarNombreClienteResponse")
+    public String consultarNombreCliente(
+        @WebParam(name = "cedula", targetNamespace = "")
+        String cedula);
 
 }

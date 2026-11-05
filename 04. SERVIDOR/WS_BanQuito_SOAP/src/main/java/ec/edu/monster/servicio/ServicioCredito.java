@@ -54,6 +54,20 @@ public class ServicioCredito {
         }
     }
 
+    // Solo devuelve el nombre (no datos financieros): la comercializadora lo usa para autocompletar la factura
+    public String consultarNombre(String cedula) {
+        String ced = cedula == null ? "" : cedula.trim();
+        if (!ValidadorCedula.esValida(ced)) {
+            return null;
+        }
+        try {
+            Cliente cliente = clienteDAO.buscarPorCedula(ced);
+            return cliente == null ? null : cliente.getNombre();
+        } catch (SQLException e) {
+            throw ExcepcionNegocio.baseDatos(e);
+        }
+    }
+
     public BigDecimal calcularMontoMaximo(int codCliente) {
         if (codCliente <= 0) {
             throw new ExcepcionNegocio(CodigoError.VAL_001, "El código de cliente debe ser mayor a cero.");

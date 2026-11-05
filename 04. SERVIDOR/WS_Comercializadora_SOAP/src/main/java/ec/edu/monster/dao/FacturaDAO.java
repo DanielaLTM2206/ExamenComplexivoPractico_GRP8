@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.time.format.DateTimeFormatter;
 
 public class FacturaDAO {
@@ -20,6 +21,11 @@ public class FacturaDAO {
     private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public Factura registrarFactura(Factura factura, DetalleFactura detalle) throws SQLException {
+        return registrarFactura(factura, List.of(detalle));
+    }
+
+    // Cabecera y todos sus detalles en una sola transacción: se confirman por completo o no se registra nada
+    public Factura registrarFactura(Factura factura, List<DetalleFactura> detalles) throws SQLException {
         String sqlFactura = "INSERT INTO FACTURA (cedula, nombre, fecha, forma_pago, subtotal, descuento, total, cod_credito) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         LocalDateTime fecha = LocalDateTime.now().withNano(0);
@@ -55,20 +61,25 @@ public class FacturaDAO {
                 }
 
                 try (PreparedStatement psDet = cn.prepareStatement(sqlDetalle)) {
-                    psDet.setInt(1, numFacturaGenerado);
-                    psDet.setInt(2, detalle.getCodCelular());
-                    psDet.setInt(3, detalle.getCantidad());
-                    psDet.setBigDecimal(4, detalle.getPrecioUnitario());
-                    psDet.setBigDecimal(5, detalle.getSubtotal());
-                    psDet.executeUpdate();
+                    for (DetalleFactura detalle : detalles) {
+                        psDet.setInt(1, numFacturaGenerado);
+                        psDet.setInt(2, detalle.getCodCelular());
+                        psDet.setInt(3, detalle.getCantidad());
+                        psDet.setBigDecimal(4, detalle.getPrecioUnitario());
+                        psDet.setBigDecimal(5, detalle.getSubtotal());
+                        psDet.addBatch();
+                    }
+                    psDet.executeBatch();
                 }
 
                 cn.commit();
                 factura.setNumFactura(numFacturaGenerado);
                 factura.setFecha(fecha.format(FORMATO_FECHA));
-                detalle.setNumFactura(numFacturaGenerado);
                 factura.getDetalles().clear();
-                factura.getDetalles().add(detalle);
+                for (DetalleFactura detalle : detalles) {
+                    detalle.setNumFactura(numFacturaGenerado);
+                    factura.getDetalles().add(detalle);
+                }
                 return factura;
 
             } catch (SQLException e) {

@@ -23,6 +23,8 @@ import jakarta.xml.bind.annotation.XmlRegistry;
 @XmlRegistry
 public class ObjectFactory {
 
+    private static final QName _ConsultarNombreCliente_QNAME = new QName("http://ws.monster.edu.ec/", "consultarNombreCliente");
+    private static final QName _ConsultarNombreClienteResponse_QNAME = new QName("http://ws.monster.edu.ec/", "consultarNombreClienteResponse");
     private static final QName _ConsultarTablaAmortizacion_QNAME = new QName("http://ws.monster.edu.ec/", "consultarTablaAmortizacion");
     private static final QName _ConsultarTablaAmortizacionResponse_QNAME = new QName("http://ws.monster.edu.ec/", "consultarTablaAmortizacionResponse");
     private static final QName _ObtenerMontoMaximo_QNAME = new QName("http://ws.monster.edu.ec/", "obtenerMontoMaximo");
@@ -37,6 +39,26 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link ConsultarNombreCliente }
+     * 
+     * @return
+     *     the new instance of {@link ConsultarNombreCliente }
+     */
+    public ConsultarNombreCliente createConsultarNombreCliente() {
+        return new ConsultarNombreCliente();
+    }
+
+    /**
+     * Create an instance of {@link ConsultarNombreClienteResponse }
+     * 
+     * @return
+     *     the new instance of {@link ConsultarNombreClienteResponse }
+     */
+    public ConsultarNombreClienteResponse createConsultarNombreClienteResponse() {
+        return new ConsultarNombreClienteResponse();
     }
 
     /**
@@ -147,6 +169,32 @@ public class ObjectFactory {
      */
     public RespuestaCredito createRespuestaCredito() {
         return new RespuestaCredito();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarNombreCliente }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link ConsultarNombreCliente }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "consultarNombreCliente")
+    public JAXBElement<ConsultarNombreCliente> createConsultarNombreCliente(ConsultarNombreCliente value) {
+        return new JAXBElement<>(_ConsultarNombreCliente_QNAME, ConsultarNombreCliente.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarNombreClienteResponse }{@code >}
+     * 
+     * @param value
+     *     Java instance representing xml element's value.
+     * @return
+     *     the new instance of {@link JAXBElement }{@code <}{@link ConsultarNombreClienteResponse }{@code >}
+     */
+    @XmlElementDecl(namespace = "http://ws.monster.edu.ec/", name = "consultarNombreClienteResponse")
+    public JAXBElement<ConsultarNombreClienteResponse> createConsultarNombreClienteResponse(ConsultarNombreClienteResponse value) {
+        return new JAXBElement<>(_ConsultarNombreClienteResponse_QNAME, ConsultarNombreClienteResponse.class, null, value);
     }
 
     /**

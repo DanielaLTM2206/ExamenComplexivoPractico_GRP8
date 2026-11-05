@@ -2,7 +2,9 @@ package ec.edu.monster;
 
 import ec.edu.monster.proxy.Celular;
 import ec.edu.monster.proxy.CuotaAmortizacion;
+import ec.edu.monster.proxy.DetalleFactura;
 import ec.edu.monster.proxy.Factura;
+import ec.edu.monster.proxy.ItemVenta;
 import ec.edu.monster.proxy.WSComercializadora;
 import ec.edu.monster.proxy.WSComercializadora_Service;
 import ec.edu.monster.servicio.ProbadorConexion;
@@ -102,6 +104,13 @@ public class Celulares_CliEsc_GR8 extends JFrame {
     private JRadioButton rdoEfectivo;
     private JRadioButton rdoCredito;
     private JComboBox<Integer> cboCuotas;
+
+    // Carrito de la venta: varios celulares por factura (el mismo celular repetido suma su cantidad)
+    private static final int MAX_CELULARES = 10;
+    private static final int MAX_CANTIDAD = 99;
+    private final Map<Integer, ItemCarrito> carrito = new LinkedHashMap<>();
+    private DefaultTableModel modeloCarrito;
+    private JTable tablaCarrito;
     private JLabel lblSubtotal;
     private JLabel lblDescuento;
     private JLabel lblTotal;
@@ -1108,9 +1117,6 @@ public class Celulares_CliEsc_GR8 extends JFrame {
         gbc.gridx = 1;
         cboCelulares = new JComboBox<>();
         cboCelulares.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        cboCelulares.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) recalcularTotales();
-        });
         campos.add(cboCelulares, gbc);
 
         // Cantidad
@@ -1120,10 +1126,16 @@ public class Celulares_CliEsc_GR8 extends JFrame {
         lblCant.setForeground(COLOR_AZUL);
         campos.add(lblCant, gbc);
         gbc.gridx = 1;
-        spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
+        spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, MAX_CANTIDAD, 1));
         spnCantidad.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        spnCantidad.addChangeListener(e -> recalcularTotales());
-        campos.add(spnCantidad, gbc);
+        JButton btnAgregar = crearBoton("Agregar al carrito", COLOR_AZUL, COLOR_BLANCO, COLOR_AZUL);
+        btnAgregar.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnAgregar.addActionListener(e -> agregarAlCarrito());
+        JPanel pnlCantidad = new JPanel(new BorderLayout(8, 0));
+        pnlCantidad.setBackground(COLOR_BLANCO);
+        pnlCantidad.add(spnCantidad, BorderLayout.CENTER);
+        pnlCantidad.add(btnAgregar, BorderLayout.EAST);
+        campos.add(pnlCantidad, gbc);
 
         // Forma de Pago
         gbc.gridx = 0; gbc.gridy++;
@@ -1273,13 +1285,19 @@ public class Celulares_CliEsc_GR8 extends JFrame {
                 "           COMERCIALIZADORA DE CELULARES - GRUPO 08              \n" +
                 "               RUC: 1799999999001  -  Quito, Ecuador             \n" +
                 "=================================================================\n" +
-                " Seleccione un equipo del catálogo y presione 'EMITIR FACTURA'   \n" +
-                " para procesar la transacción y obtener el comprobante oficial.  \n" +
+                " Agregue uno o varios equipos al carrito y presione              \n" +
+                " 'EMITIR FACTURA' para obtener el comprobante oficial.           \n" +
                 "=================================================================\n"
         );
 
-        pnlPreview.add(pnlCompHeader, BorderLayout.NORTH);
-        pnlPreview.add(new JScrollPane(txtFacturaEmitida), BorderLayout.CENTER);
+        // El carrito va sobre el comprobante: el formulario de la izquierda ya ocupa toda la altura
+        JPanel pnlComprobante = new JPanel(new BorderLayout());
+        pnlComprobante.setOpaque(false);
+        pnlComprobante.add(pnlCompHeader, BorderLayout.NORTH);
+        pnlComprobante.add(new JScrollPane(txtFacturaEmitida), BorderLayout.CENTER);
+
+        pnlPreview.add(crearPanelCarrito(), BorderLayout.NORTH);
+        pnlPreview.add(pnlComprobante, BorderLayout.CENTER);
 
         panel.add(pnlForm);
         panel.add(pnlPreview);
@@ -1293,13 +1311,110 @@ public class Celulares_CliEsc_GR8 extends JFrame {
         recalcularTotales();
     }
 
-    private void recalcularTotales() {
-        CelularItem item = (CelularItem) cboCelulares.getSelectedItem();
-        if (item == null) return;
+    private JPanel crearPanelCarrito() {
+        JPanel pnl = new JPanel(new BorderLayout(6, 6));
+        pnl.setOpaque(false);
 
+        JLabel lblTit = new JLabel("Carrito de la venta");
+        lblTit.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblTit.setForeground(COLOR_AZUL);
+
+        JButton btnQuitar = crearBoton("Quitar seleccionado", COLOR_BLANCO, COLOR_ERROR, COLOR_ERROR);
+        btnQuitar.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnQuitar.setBorder(new EmptyBorder(4, 12, 4, 12));
+        btnQuitar.addActionListener(e -> quitarDelCarrito());
+
+        JPanel pnlTit = new JPanel(new BorderLayout());
+        pnlTit.setOpaque(false);
+        pnlTit.add(lblTit, BorderLayout.WEST);
+        pnlTit.add(btnQuitar, BorderLayout.EAST);
+
+        modeloCarrito = new DefaultTableModel(new Object[]{"Celular", "Cant.", "P. unitario", "Subtotal"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        tablaCarrito = new JTable(modeloCarrito);
+        tablaCarrito.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        tablaCarrito.setRowHeight(24);
+        tablaCarrito.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tablaCarrito.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        tablaCarrito.getTableHeader().setBackground(COLOR_AZUL);
+        tablaCarrito.getTableHeader().setForeground(COLOR_BLANCO);
+        tablaCarrito.getColumnModel().getColumn(0).setPreferredWidth(220);
+        DefaultTableCellRenderer derecha = new DefaultTableCellRenderer();
+        derecha.setHorizontalAlignment(SwingConstants.RIGHT);
+        for (int c = 1; c < 4; c++) {
+            tablaCarrito.getColumnModel().getColumn(c).setCellRenderer(derecha);
+        }
+
+        JScrollPane scroll = new JScrollPane(tablaCarrito);
+        scroll.setPreferredSize(new Dimension(300, 170));
+        scroll.getViewport().setBackground(COLOR_BLANCO);
+        scroll.setBorder(BorderFactory.createLineBorder(COLOR_BORDE, 1));
+
+        pnl.add(pnlTit, BorderLayout.NORTH);
+        pnl.add(scroll, BorderLayout.CENTER);
+        return pnl;
+    }
+
+    // Agrega el celular elegido al carrito; si ya estaba se suma la cantidad (máximo 99 por celular)
+    private void agregarAlCarrito() {
+        CelularItem item = (CelularItem) cboCelulares.getSelectedItem();
+        if (item == null) {
+            mostrarDialogoModal(this, "Seleccione un Celular", "Elija el teléfono del catálogo que desea agregar.", TIPO_AVISO);
+            return;
+        }
         int cantidad = (int) spnCantidad.getValue();
-        BigDecimal precio = item.celular.getPrecio();
-        BigDecimal subtotal = precio.multiply(BigDecimal.valueOf(cantidad)).setScale(2, RoundingMode.HALF_UP);
+        int cod = item.celular.getCodCelular();
+        ItemCarrito existente = carrito.get(cod);
+        if (existente != null) {
+            if (existente.cantidad + cantidad > MAX_CANTIDAD) {
+                mostrarDialogoModal(this, "Cantidad no válida",
+                        "La cantidad de cada celular no puede superar " + MAX_CANTIDAD + ".", TIPO_AVISO);
+                return;
+            }
+            existente.cantidad += cantidad;
+        } else {
+            if (carrito.size() >= MAX_CELULARES) {
+                mostrarDialogoModal(this, "Carrito lleno",
+                        "Una factura admite máximo " + MAX_CELULARES + " celulares distintos.", TIPO_AVISO);
+                return;
+            }
+            carrito.put(cod, new ItemCarrito(item.celular, cantidad));
+        }
+        spnCantidad.setValue(1);
+        refrescarCarrito();
+    }
+
+    private void quitarDelCarrito() {
+        int fila = tablaCarrito.getSelectedRow();
+        if (fila < 0) {
+            mostrarDialogoModal(this, "Seleccione un Celular", "Seleccione en el carrito la fila que desea quitar.", TIPO_AVISO);
+            return;
+        }
+        Integer cod = new java.util.ArrayList<>(carrito.keySet()).get(fila);
+        carrito.remove(cod);
+        refrescarCarrito();
+    }
+
+    private void refrescarCarrito() {
+        modeloCarrito.setRowCount(0);
+        for (ItemCarrito i : carrito.values()) {
+            modeloCarrito.addRow(new Object[]{
+                    i.celular.getMarca() + " " + i.celular.getModelo(),
+                    i.cantidad,
+                    "$ " + i.celular.getPrecio().setScale(2, RoundingMode.HALF_UP),
+                    "$ " + i.subtotal()});
+        }
+        recalcularTotales();
+    }
+
+    private void recalcularTotales() {
+        if (lblSubtotal == null) return;
+        BigDecimal subtotal = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        for (ItemCarrito i : carrito.values()) {
+            subtotal = subtotal.add(i.subtotal());
+        }
         lblSubtotal.setText("$ " + subtotal);
 
         if (rdoEfectivo.isSelected()) {
@@ -1323,7 +1438,7 @@ public class Celulares_CliEsc_GR8 extends JFrame {
                     cboCelulares.addItem(new CelularItem(c));
                 }
             }
-            recalcularTotales();
+            refrescarCarrito();
         } catch (Exception ignored) {}
     }
 
@@ -1408,11 +1523,9 @@ public class Celulares_CliEsc_GR8 extends JFrame {
     private void emitirFactura() {
         String cedula = txtCedula.getText().trim();
         String nombre = txtNombre.getText().trim();
-        CelularItem item = (CelularItem) cboCelulares.getSelectedItem();
-
-        if (cedula.isEmpty() || item == null) {
+        if (cedula.isEmpty() || carrito.isEmpty()) {
             mostrarDialogoModal(this, "Datos Incompletos",
-                    "Ingrese la cédula del cliente y seleccione un teléfono del catálogo.", TIPO_AVISO);
+                    "Ingrese la cédula del cliente y agregue al menos un teléfono al carrito.", TIPO_AVISO);
             return;
         }
 
@@ -1464,8 +1577,13 @@ public class Celulares_CliEsc_GR8 extends JFrame {
             }
         }
 
-        int codCelular = item.celular.getCodCelular();
-        int cantidad = (int) spnCantidad.getValue();
+        List<ItemVenta> items = new java.util.ArrayList<>();
+        for (ItemCarrito i : carrito.values()) {
+            ItemVenta iv = new ItemVenta();
+            iv.setCodCelular(i.celular.getCodCelular());
+            iv.setCantidad(i.cantidad);
+            items.add(iv);
+        }
         btnFacturar.setEnabled(false);
 
         final String finalCedula = cedula;
@@ -1475,10 +1593,11 @@ public class Celulares_CliEsc_GR8 extends JFrame {
             @Override
             protected Factura doInBackground() throws Exception {
                 if (rdoEfectivo.isSelected()) {
-                    return servicio.facturarEfectivo(finalCedula, finalNombre, codCelular, cantidad);
+                    return servicio.facturarVentaEfectivo(finalCedula, finalNombre, items);
                 } else {
                     int cuotas = (Integer) cboCuotas.getSelectedItem();
-                    return servicio.facturarCredito(finalCedula, finalNombre, codCelular, cuotas);
+                    // Un solo crédito BanQuito por el total de la venta
+                    return servicio.facturarVentaCredito(finalCedula, finalNombre, items, cuotas);
                 }
             }
 
@@ -1509,9 +1628,14 @@ public class Celulares_CliEsc_GR8 extends JFrame {
                             sb.append("ESTADO CLIENTE:        NUEVO CLIENTE REGISTRADO EN COMERCIALIZADORA\n");
                         }
                         sb.append("-----------------------------------------------------------------\n");
-                        sb.append(String.format("EQUIPO:                %s %s\n", item.celular.getMarca(), item.celular.getModelo()));
-                        sb.append(String.format("CANTIDAD:              %d\n", cantidad));
-                        sb.append(String.format("PRECIO UNITARIO:       $ %.2f\n", item.celular.getPrecio()));
+                        for (DetalleFactura d : f.getDetalles()) {
+                            sb.append(String.format("%-31s %3d x %8.2f = %9.2f\n",
+                                    (d.getMarcaCelular() + " " + d.getModeloCelular()).length() > 31
+                                            ? (d.getMarcaCelular() + " " + d.getModeloCelular()).substring(0, 31)
+                                            : d.getMarcaCelular() + " " + d.getModeloCelular(),
+                                    d.getCantidad(), d.getPrecioUnitario(), d.getSubtotal()));
+                        }
+                        sb.append("-----------------------------------------------------------------\n");
                         sb.append(String.format("SUBTOTAL:              $ %.2f\n", f.getSubtotal()));
                         sb.append(String.format("DESCUENTO:             $ %.2f\n", f.getDescuento()));
                         sb.append(String.format("TOTAL CANCELADO:       $ %.2f\n", f.getTotal()));
@@ -1532,6 +1656,9 @@ public class Celulares_CliEsc_GR8 extends JFrame {
                         sb.append("=================================================================\n");
 
                         txtFacturaEmitida.setText(sb.toString());
+                        txtFacturaEmitida.setCaretPosition(0);
+                        carrito.clear();
+                        refrescarCarrito();
 
                         // Diálogo modal estilizado con diseño web institucional
                         if (esCredito) {
@@ -2140,6 +2267,16 @@ public class Celulares_CliEsc_GR8 extends JFrame {
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBorder(new EmptyBorder(8, 16, 8, 16));
         return btn;
+    }
+
+    // Renglón del carrito: celular y cantidad
+    private static class ItemCarrito {
+        final Celular celular;
+        int cantidad;
+        ItemCarrito(Celular c, int cantidad) { this.celular = c; this.cantidad = cantidad; }
+        BigDecimal subtotal() {
+            return celular.getPrecio().multiply(BigDecimal.valueOf(cantidad)).setScale(2, RoundingMode.HALF_UP);
+        }
     }
 
     // Clase auxiliar para el ComboBox de celulares
